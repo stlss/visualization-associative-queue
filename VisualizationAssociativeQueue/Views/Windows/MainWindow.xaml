@@ -46,7 +46,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!--Основные кнопки-->
+                    <!--Дополнительные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <ComboBox Style="{StaticResource ComboBoxManagementStyle}" Text="Content"/>
@@ -59,29 +59,45 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <!--Основные кнопки-->
+                    <!--Основные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource LabelManagementStyle}"/>
-                            <Label Style="{StaticResource LabelManagementStyle}"/>
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorOperation.Name}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorOperation.DisplayValue}"
+                                   Foreground="{Binding IndicatorOperation.SolidColorBrush}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource LabelManagementStyle}" Content="Count:"/>
-                            <Label Style="{StaticResource LabelManagementStyle}"/>
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorCount.Name}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorCount.DisplayValue}"
+                                   Foreground="{Binding IndicatorCount.SolidColorBrush}"/>
                         </StackPanel>
                     </StackPanel>
 
-                    <!--Основные кнопки-->
+                    <!--Дополнительные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource LabelManagementStyle}" Content="Front:"/>
-                            <Label Style="{StaticResource LabelManagementStyle}"/>
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorFront.Name}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorFront.DisplayValue}"
+                                   Foreground="{Binding IndicatorFront.SolidColorBrush}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource LabelManagementStyle}" Content="Back:"/>
-                            <Label Style="{StaticResource LabelManagementStyle}"/>
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorBack.Name}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorBack.DisplayValue}"
+                                   Foreground="{Binding IndicatorBack.SolidColorBrush}"/>
                         </StackPanel>
                     </StackPanel>
 
