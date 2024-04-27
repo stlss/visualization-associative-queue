@@ -37,12 +37,16 @@
                     <!--Основные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Push"/>
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}"/>
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Push"
+                                    Command="{Binding PushCommand}"
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
+                            
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Pop"/>
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Pop"
+                                    Command="{Binding PopCommand}"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -50,12 +54,17 @@
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <ComboBox Style="{StaticResource ComboBoxManagementStyle}" Text="Content"/>
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Clear"/>
+                            
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Clear"
+                                    Command="{Binding ClearCommand}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Generate"/>
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}"/>
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Generate"
+                                    Command="{Binding GenerateCommand}"
+                                    CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}"/>
+                            
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"/>
                         </StackPanel>
                     </StackPanel>
 
