@@ -53,8 +53,12 @@
                     <!--Дополнительные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" Text="Content"/>
-                            
+                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" Text="Content"
+                                      ItemTemplate="{StaticResource OperationManagementDataTemplate}"
+                                      ItemsSource="{Binding Operations}"
+                                      SelectedItem="{Binding SelectedOperation}"/>
+
+
                             <Button Style="{StaticResource ButtonManagementStyle}" Content="Clear"
                                     Command="{Binding ClearCommand}"/>
                         </StackPanel>

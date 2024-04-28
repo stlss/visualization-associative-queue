@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using AssociativeLibrary;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Brushes = VisualizationAssociativeQueue.Models.Brushes;
+using VisualizationAssociativeQueue.Models.Associativity;
+using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
@@ -13,6 +15,19 @@ namespace VisualizationAssociativeQueue.ViewModels
         public IndicatorViewModel IndicatorCount { get; private set; }
         public IndicatorViewModel IndicatorFront { get; private set; }
         public IndicatorViewModel IndicatorBack { get; private set; }
+        #endregion
+
+        #region Операции
+        public List<IAssociativeOperation<int>> Operations { get; private set; }
+        #endregion
+
+        #region Выбранная операция
+        private IAssociativeOperation<int> _selectedOperation;
+        public IAssociativeOperation<int> SelectedOperation
+        {
+            get => _selectedOperation;
+            set => SetProperty(ref _selectedOperation, value);
+        }
         #endregion
 
         #endregion
@@ -81,6 +96,11 @@ namespace VisualizationAssociativeQueue.ViewModels
             PopCommand = new(ExecutePopCommand, CanExecutePopCommand);
             ClearCommand = new(ExecuteClearCommand);
             GenerateCommand = new(ExecuteGenerateCommand, CanExecuteGenerateCommand);
+            #endregion
+
+            #region Операции и выбранная операция
+            Operations = СollectorOperations.GetAssociativeOperations();
+            _selectedOperation = Operations.Where(operation => operation.Name == "Max").First();
             #endregion
         }
     }

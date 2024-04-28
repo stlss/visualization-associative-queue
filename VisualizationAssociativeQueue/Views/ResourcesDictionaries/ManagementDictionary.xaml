@@ -26,8 +26,12 @@
     </Style>
 
     <Style x:Key="ComboBoxManagementStyle" TargetType="ComboBox" BasedOn="{StaticResource BaseControlManagementStyle}">
-
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+
+    <DataTemplate x:Key="OperationManagementDataTemplate">
+        <TextBlock Text="{Binding Name}"/>
+    </DataTemplate>
 
     <Style x:Key="NameIndicatorLabelManagementStyle" TargetType="Label" BasedOn="{StaticResource BaseControlManagementStyle}">
         <Setter Property="ContentStringFormat" Value="{}{0}:"/>

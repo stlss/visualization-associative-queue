@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace VisualizationAssociativeQueue.Models
+namespace VisualizationAssociativeQueue.Infrastructure
 {
     internal static class Brushes
     {

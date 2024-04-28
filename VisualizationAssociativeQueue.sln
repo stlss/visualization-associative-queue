@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualizationAssociativeQueue", "VisualizationAssociativeQueue\VisualizationAssociativeQueue.csproj", "{030C4D2F-B6B2-4614-B783-35C5620A6314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualizationAssociativeQueue", "VisualizationAssociativeQueue\VisualizationAssociativeQueue.csproj", "{030C4D2F-B6B2-4614-B783-35C5620A6314}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociativeLibrary", "AssociativeLibrary\AssociativeLibrary.csproj", "{493204BB-7BAE-40D5-AA29-02E5C1B377B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{030C4D2F-B6B2-4614-B783-35C5620A6314}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{030C4D2F-B6B2-4614-B783-35C5620A6314}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{030C4D2F-B6B2-4614-B783-35C5620A6314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{493204BB-7BAE-40D5-AA29-02E5C1B377B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493204BB-7BAE-40D5-AA29-02E5C1B377B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493204BB-7BAE-40D5-AA29-02E5C1B377B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493204BB-7BAE-40D5-AA29-02E5C1B377B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
