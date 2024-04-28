@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
-using VisualizationAssociativeQueue.Models.Associativity.Operations;
 
 namespace VisualizationAssociativeQueue.Models.Associativity
 {
@@ -15,21 +14,22 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         private static readonly string _pathAssembly = Assembly.GetExecutingAssembly().Location;
 
         /// <summary>
-        /// Конфиг, содержащий пути до сборок, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
+        /// Конфиг, содержащий сборки и их пути, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
         /// </summary>
         private static readonly XDocument _config = ReadConfig();
 
 
+        /// <summary>
+        /// Возвращает экземпляры классов сборок, указанных в конфиге, реализующие интерфейс IAssociativeOperation<int> и приведённые к нему.
+        /// </summary>
         public static List<IAssociativeOperation<int>> GetAssociativeOperations()
         {
-            //return [new OperationMax(), new OperationMin()];
-
             var pathAssemblies = _config.Root!.Elements().
                 Where(element => element.Name == "Assembly" && element.Attribute("Path") != null).
                 Select(assembly => assembly.Attribute("Path")!.Value).
                 Distinct();
 
-            var assemblies = pathAssemblies.Where(path => Path.GetExtension(path) == ".dll").
+            var assemblies = pathAssemblies.Where(path => Path.GetExtension(path) == ".dll" && Path.Exists(path)).
                 Select(Assembly.LoadFrom);
 
             var types = assemblies.SelectMany(assembly => assembly.GetTypes()).
@@ -49,7 +49,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity
 
 
         /// <summary>
-        /// Читает xml-документ конфига, в случае его отсутствия или некорректности создаёт новый.
+        /// Считывает xml-документ конфига, в случае его отсутствия или некорректности создаёт новый.
         /// </summary>
         private static XDocument ReadConfig()
         {
@@ -84,7 +84,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         }
 
         /// <summary>
-        /// Создаёт xml-документ конфига, в котором прописываются пути до сборок.
+        /// Создаёт xml-документ конфига.
         /// </summary>
         private static XDocument CreateConfig()
         {

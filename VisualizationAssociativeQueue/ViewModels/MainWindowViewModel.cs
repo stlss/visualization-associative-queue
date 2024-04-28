@@ -26,7 +26,13 @@ namespace VisualizationAssociativeQueue.ViewModels
         public IAssociativeOperation<int> SelectedOperation
         {
             get => _selectedOperation;
-            set => SetProperty(ref _selectedOperation, value);
+            set 
+            {
+                var isChangedProperty = SetProperty(ref _selectedOperation, value);
+
+                if (isChangedProperty)
+                    IndicatorOperation.Name = SelectedOperation.Name;
+            }
         }
         #endregion
 
@@ -84,8 +90,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         public MainWindowViewModel()
         {
+            string nameOperation = "Max";
+
             #region Индикаторы
-            IndicatorOperation = new() { SolidColorBrush = Brushes.Red };
+            IndicatorOperation = new() { Name = nameOperation, SolidColorBrush = Brushes.Red };
             IndicatorCount = new() { Name = "Count", Value = 0, SolidColorBrush = Brushes.Red };
             IndicatorFront = new() { Name = "Front", SolidColorBrush = Brushes.Red };
             IndicatorBack = new() { Name = "Back", SolidColorBrush = Brushes.Red };
@@ -100,7 +108,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             #region Операции и выбранная операция
             Operations = СollectorOperations.GetAssociativeOperations();
-            _selectedOperation = Operations.Where(operation => operation.Name == "Max").First();
+            _selectedOperation = Operations.Where(operation => operation.Name == nameOperation).First();
             #endregion
         }
     }

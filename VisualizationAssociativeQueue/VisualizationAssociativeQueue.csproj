@@ -24,4 +24,10 @@
     <Resource Include="Resources\Icons\Icon.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

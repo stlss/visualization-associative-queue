@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Assemblies>
+	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\VisualizationAssociativeQueue\bin\Debug\net8.0-windows\VisualizationAssociativeQueue.dll"/>
+	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\ForeignAssociativeOperationLibrary\bin\Debug\net8.0\ForeignAssociativeOperationLibrary.dll"/>
+</Assemblies>
