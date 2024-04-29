@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--В случае отсутствия конфига или его некорректности, он создаться заново-->
+<Assemblies>
+	<!--В случае отсутствия сборки VisualizationAssociativeQueue.dll, она автоматически добавится-->
+	<Assembly Name="VisualizationAssociativeQueue.dll" Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\VisualizationAssociativeQueue\bin\Debug\net8.0-windows\VisualizationAssociativeQueue.dll"/>
+	<Assembly Name="ForeignAssociativeOperationLibrary.dll" Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\ForeignAssociativeOperationLibrary\bin\Debug\net8.0\ForeignAssociativeOperationLibrary.dll"/>
+</Assemblies>

@@ -1,0 +1,132 @@
+﻿<Window x:Class="VisualizationAssociativeQueue.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
+        mc:Ignorable="d"
+        Title="VisualizationAssociativeQueue" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="800"
+        Icon="pack://application:,,,/Resources/Icons/Icon.ico">
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Views/ResourcesDictionaries/VisualizationDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Views/ResourcesDictionaries/ManagementDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <!--Область управления-->
+        <Grid Grid.Row="1">
+            <Viewbox>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                    <!--Основные кнопки-->
+                    <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Enqueue" ToolTip="Добавить элемент в конец очереди"
+                                    Command="{Binding EnqueueCommand}"
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
+                            
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"
+                                     ToolTip="Поле для ввода добавляемого элемента"/>
+                        </StackPanel>
+
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Dequeue" ToolTip="Удалить элемент из начала очереди"
+                                    Command="{Binding DequeueCommand}"
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Дополнительные кнопки-->
+                    <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" ToolTip="Ассоциативная операция"
+                                      ItemTemplate="{StaticResource OperationManagementDataTemplate}"
+                                      ItemsSource="{Binding Operations}"
+                                      SelectedItem="{Binding SelectedOperation}"/>
+
+
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Clear" ToolTip="Удалить все элементы из очереди"
+                                    Command="{Binding ClearCommand}"/>
+                        </StackPanel>
+
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Generate" ToolTip="Сгенерировать очередь по ключу"
+                                    Command="{Binding GenerateCommand}"
+                                    CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}"/>
+                            
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"
+                                     ToolTip="Поле для ввода ключа генерации очереди"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Основные индикаторы-->
+                    <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorOperation.Name}"
+                                   ToolTip="{Binding IndicatorOperation.Description}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorOperation.DisplayValue}"
+                                   Foreground="{Binding IndicatorOperation.SolidColorBrush}"/>
+                        </StackPanel>
+
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorCount.Name}" 
+                                   ToolTip="{Binding IndicatorCount.Description}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorCount.DisplayValue}"
+                                   Foreground="{Binding IndicatorCount.SolidColorBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--Дополнительные индикаторы-->
+                    <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorFirst.Name}"
+                                   ToolTip="{Binding IndicatorFirst.Description}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorFirst.DisplayValue}"
+                                   Foreground="{Binding IndicatorFirst.SolidColorBrush}"/>
+                        </StackPanel>
+
+                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorLast.Name}"
+                                   ToolTip="{Binding IndicatorLast.Description}"/>
+
+                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
+                                   Content="{Binding IndicatorLast.DisplayValue}"
+                                   Foreground="{Binding IndicatorLast.SolidColorBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</Window>
