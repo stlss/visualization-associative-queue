@@ -37,15 +37,18 @@
                     <!--Основные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Enqueue"
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Enqueue" ToolTip="Добавить элемент в конец очереди"
                                     Command="{Binding EnqueueCommand}"
                                     CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
                             
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"/>
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"
+                                     ToolTip="Поле для ввода добавляемого элемента"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Dequeue"
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Dequeue" ToolTip="Удалить элемент из начала очереди"
                                     Command="{Binding DequeueCommand}"
                                     CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
                         </StackPanel>
@@ -54,22 +57,25 @@
                     <!--Дополнительные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" Text="Content"
+                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" ToolTip="Ассоциативная операция"
                                       ItemTemplate="{StaticResource OperationManagementDataTemplate}"
                                       ItemsSource="{Binding Operations}"
                                       SelectedItem="{Binding SelectedOperation}"/>
 
 
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Clear"
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Clear" ToolTip="Удалить все элементы из очереди"
                                     Command="{Binding ClearCommand}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Generate"
+                            <Button Style="{StaticResource ButtonManagementStyle}" 
+                                    Content="Generate" ToolTip="Сгенерировать очередь по ключу"
                                     Command="{Binding GenerateCommand}"
                                     CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}"/>
                             
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"/>
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"
+                                     ToolTip="Поле для ввода ключа генерации очереди"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -77,7 +83,8 @@
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorOperation.Name}"/>
+                                   Content="{Binding IndicatorOperation.Name}"
+                                   ToolTip="{Binding IndicatorOperation.Description}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorOperation.DisplayValue}"
@@ -86,7 +93,8 @@
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorCount.Name}"/>
+                                   Content="{Binding IndicatorCount.Name}" 
+                                   ToolTip="{Binding IndicatorCount.Description}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorCount.DisplayValue}"
@@ -98,7 +106,8 @@
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFirst.Name}"/>
+                                   Content="{Binding IndicatorFirst.Name}"
+                                   ToolTip="{Binding IndicatorFirst.Description}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorFirst.DisplayValue}"
@@ -107,7 +116,8 @@
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorLast.Name}"/>
+                                   Content="{Binding IndicatorLast.Name}"
+                                   ToolTip="{Binding IndicatorLast.Description}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorLast.DisplayValue}"

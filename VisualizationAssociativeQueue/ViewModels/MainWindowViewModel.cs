@@ -42,6 +42,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
                 #region Обновить индикатор операции
                 IndicatorOperation.Name = SelectedOperation.Name;
+                IndicatorOperation.Description = SelectedOperation.Description;
 
                 if (_associativeQueue.Count != 0)
                 {
@@ -148,12 +149,21 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         public MainWindowViewModel()
         {
+            #region Ассоциативная очередь
+            _associativeQueue = new() { Operation = _selectedOperation };
+            #endregion
+
+            #region Операции и выбранная операция
             string nameOperation = "Max";
+
+            Operations = СollectorOperations.GetAssociativeOperations();
+            _selectedOperation = Operations.Where(operation => operation.Name == nameOperation).First();
+            #endregion
 
             #region Индикаторы
             IndicatorOperation = new() { 
-                Name = nameOperation, 
-                SolidColorBrush = Brushes.Red,
+                Name = nameOperation, Description = _selectedOperation.Description, 
+                Value = null, SolidColorBrush = Brushes.Red,
                 // Значение операции null? Цвет - красный.
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
                 ChangeSolidColorBrush = (int? oldValue, int? newValue) => 
@@ -162,24 +172,24 @@ namespace VisualizationAssociativeQueue.ViewModels
             };
 
             IndicatorCount = new() { 
-                Name = "Count", Value = 0, 
-                SolidColorBrush = Brushes.Red,
+                Name = "Count", Description = "Число элементов в очереди",
+                Value = 0, SolidColorBrush = Brushes.Red,
                 // Число элементов 0? Цвет - красный, иначе чёрный. 
                 ChangeSolidColorBrush = (int _, int newValue) => 
                     newValue == 0 ? Brushes.Red : Brushes.Black,
             };
 
             IndicatorFirst = new() { 
-                Name = "First",
-                SolidColorBrush = Brushes.Red,
+                Name = "First", Description = "Первый элемент в очереди",
+                Value = null, SolidColorBrush = Brushes.Red,
                 // Первый элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
 
             IndicatorLast = new() { 
-                Name = "Last",
-                SolidColorBrush = Brushes.Red,
+                Name = "Last", Description = "Последний элемент в очереди",
+                Value = null, SolidColorBrush = Brushes.Red,
                 // Последний элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,
@@ -191,15 +201,6 @@ namespace VisualizationAssociativeQueue.ViewModels
             DequeueCommand = new(ExecuteDequeueCommand, CanExecuteDequeueCommand);
             ClearCommand = new(ExecuteClearCommand);
             GenerateCommand = new(ExecuteGenerateCommand, CanExecuteGenerateCommand);
-            #endregion
-
-            #region Операции и выбранная операция
-            Operations = СollectorOperations.GetAssociativeOperations();
-            _selectedOperation = Operations.Where(operation => operation.Name == nameOperation).First();
-            #endregion
-
-            #region Ассоциативная очередь
-            _associativeQueue = new() { Operation = _selectedOperation };
             #endregion
         }
     }

@@ -14,6 +14,15 @@ namespace VisualizationAssociativeQueue.ViewModels
         }
         #endregion
 
+        #region Описание
+        private string _description = "NoDescription";
+        public string Description
+        {
+            get => _description;
+            set => SetProperty(ref _description, value);
+        }
+        #endregion
+
         #region Значение
         private T? _value = default; 
         public T? Value
