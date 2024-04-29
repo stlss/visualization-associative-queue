@@ -9,22 +9,22 @@ namespace VisualizationAssociativeQueue.Models.Associativity
     internal static class СollectorOperations
     {
         /// <summary>
-        /// Путь до текущей сборки.
+        /// Путь до сборки VisualizationAssociativeQueue.dll.
         /// </summary>
-        private static readonly string _pathAssembly = Assembly.GetExecutingAssembly().Location;
+        private static readonly string s_pathAssembly = Assembly.GetExecutingAssembly().Location;
 
         /// <summary>
         /// Конфиг, содержащий сборки и их пути, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
         /// </summary>
-        private static readonly XDocument _config = ReadConfig();
+        private static readonly XDocument s_config = ReadConfig();
 
 
         /// <summary>
-        /// Возвращает экземпляры классов сборок, указанных в конфиге, реализующие интерфейс IAssociativeOperation<int> и приведённые к нему.
+        /// Возвращает экземпляры классов, приведённые к IAssociativeOperation<int>, сборок, указанных в конфиге, реализующие интерфейс IAssociativeOperation<int>.
         /// </summary>
         public static List<IAssociativeOperation<int>> GetAssociativeOperations()
         {
-            var pathAssemblies = _config.Root!.Elements().
+            var pathAssemblies = s_config.Root!.Elements().
                 Where(element => element.Name == "Assembly" && element.Attribute("Path") != null).
                 Select(assembly => assembly.Attribute("Path")!.Value).
                 Distinct();
@@ -74,9 +74,9 @@ namespace VisualizationAssociativeQueue.Models.Associativity
                 config.Save(nameConfig);
             }
 
-            if (!config.Root!.Elements().Any(assembly => assembly.Attribute("Path")?.Value == _pathAssembly))
+            if (!config.Root!.Elements().Any(assembly => assembly.Attribute("Path")?.Value == s_pathAssembly))
             {
-                config.Root.Add(new XElement("Assembly", new XAttribute("Path", _pathAssembly)));
+                config.Root.Add(new XElement("Assembly", new XAttribute("Path", s_pathAssembly)));
                 config.Save(nameConfig);
             }
 
@@ -90,8 +90,12 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         {
             var config = new XDocument(
                     new XDeclaration("1.0", "utf-8", "true"),
+                    new XComment("В случае отсутствия конфига или его некорректности, он создаться заново"),
                     new XElement("Assemblies",
-                        new XElement("Assembly", new XAttribute("Path", _pathAssembly))));
+                        new XComment("В случае отсутствия сборки VisualizationAssociativeQueue.dll, она автоматически добавится"),
+                        new XElement("Assembly", 
+                            new XAttribute("Name", "VisualizationAssociativeQueue.dll"), 
+                            new XAttribute("Path", s_pathAssembly))));
 
             return config;
         }
