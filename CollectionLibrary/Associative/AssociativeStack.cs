@@ -52,10 +52,10 @@ namespace CollectionLibrary.Associative
         public T GetResultAssociativeOperation()
         {
             if (Count == 0)
-                ThrowEmptyAssociativeStack();
+                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
 
             if (Operation == null)
-                ThrowNullOperationAssociativeStack();
+                ExceptionWizard.ThrowNullOperationAssociativeCollection(this);
 
             return _onlyAssociativeStack.Peek();
         }
@@ -91,10 +91,10 @@ namespace CollectionLibrary.Associative
         public new T Pop()
         {
             if (Count == 0)
-                ThrowEmptyAssociativeStack();
+                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
 
             var item = base.Pop();
-            _ = _onlyAssociativeStack.Pop();
+            _onlyAssociativeStack.Pop();
 
             return item;
         }
@@ -115,19 +115,6 @@ namespace CollectionLibrary.Associative
         {
             base.Clear();
             _onlyAssociativeStack.Clear();
-        }
-        #endregion
-
-
-        #region Исключения
-        private static void ThrowEmptyAssociativeStack()
-        {
-            throw new InvalidOperationException("AssociativeStack<T> is empty.");
-        }
-
-        private static void ThrowNullOperationAssociativeStack()
-        {
-            throw new InvalidOperationException("AssociativeStack<T>.Operation is null.");
         }
         #endregion
     }
