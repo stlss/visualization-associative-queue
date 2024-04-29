@@ -149,15 +149,15 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         public MainWindowViewModel()
         {
-            #region Ассоциативная очередь
-            _associativeQueue = new() { Operation = _selectedOperation };
-            #endregion
-
             #region Операции и выбранная операция
             string nameOperation = "Max";
 
             Operations = СollectorOperations.GetAssociativeOperations();
             _selectedOperation = Operations.Where(operation => operation.Name == nameOperation).First();
+            #endregion
+
+            #region Ассоциативная очередь
+            _associativeQueue = new() { Operation = _selectedOperation };
             #endregion
 
             #region Индикаторы
