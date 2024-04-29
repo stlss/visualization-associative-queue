@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
         mc:Ignorable="d"
         Title="VisualizationAssociativeQueue" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="800"
         Icon="pack://application:,,,/Resources/Icons/Icon.ico">
 
     <Window.DataContext>
@@ -37,16 +37,17 @@
                     <!--Основные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Push"
-                                    Command="{Binding PushCommand}"
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Enqueue"
+                                    Command="{Binding EnqueueCommand}"
                                     CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
                             
                             <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Pop"
-                                    Command="{Binding PopCommand}"/>
+                            <Button Style="{StaticResource ButtonManagementStyle}" Content="Dequeue"
+                                    Command="{Binding DequeueCommand}"
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -97,20 +98,20 @@
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFront.Name}"/>
+                                   Content="{Binding IndicatorFirst.Name}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFront.DisplayValue}"
-                                   Foreground="{Binding IndicatorFront.SolidColorBrush}"/>
+                                   Content="{Binding IndicatorFirst.DisplayValue}"
+                                   Foreground="{Binding IndicatorFirst.SolidColorBrush}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorBack.Name}"/>
+                                   Content="{Binding IndicatorLast.Name}"/>
 
                             <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorBack.DisplayValue}"
-                                   Foreground="{Binding IndicatorBack.SolidColorBrush}"/>
+                                   Content="{Binding IndicatorLast.DisplayValue}"
+                                   Foreground="{Binding IndicatorLast.SolidColorBrush}"/>
                         </StackPanel>
                     </StackPanel>
 

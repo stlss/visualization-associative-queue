@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssociativeLibrary\AssociativeLibrary.csproj" />
+    <ProjectReference Include="..\CollectionLibrary\CollectionLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

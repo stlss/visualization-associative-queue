@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
-    internal class IndicatorViewModel : ObservableObject
+    internal class IndicatorViewModel<T> : ObservableObject
     {
         #region Название
         private string _name = "NoName";
@@ -15,12 +15,14 @@ namespace VisualizationAssociativeQueue.ViewModels
         #endregion
 
         #region Значение
-        private object? _value = null; 
-        public object? Value
+        private T? _value = default; 
+        public T? Value
         {
             get => _value;
             set
             {
+                SolidColorBrush = ChangeSolidColorBrush?.Invoke(_value, value) ?? Brushes.Black;
+
                 var isChangedProperty = SetProperty(ref _value, value);
 
                 if (isChangedProperty)
@@ -40,6 +42,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             get => _solidColorBrush;
             set => SetProperty(ref _solidColorBrush, value);
         }
+        #endregion
+
+        #region Логика изменения цвета
+        public Func<T?, T?, SolidColorBrush>? ChangeSolidColorBrush { get; set; }
         #endregion
     }
 }

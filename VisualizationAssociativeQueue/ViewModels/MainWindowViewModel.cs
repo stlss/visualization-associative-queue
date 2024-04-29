@@ -1,4 +1,5 @@
 ﻿using AssociativeLibrary;
+using CollectionLibrary.Associative;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using VisualizationAssociativeQueue.Models.Associativity;
@@ -8,13 +9,17 @@ namespace VisualizationAssociativeQueue.ViewModels
 {
     internal class MainWindowViewModel : ObservableObject
     {
+        #region Поля
+        private readonly AssociativeQueue<int> _associativeQueue;
+        #endregion
+
         #region Свойства
 
         #region Индикаторы
-        public IndicatorViewModel IndicatorOperation { get; private set; }
-        public IndicatorViewModel IndicatorCount { get; private set; }
-        public IndicatorViewModel IndicatorFront { get; private set; }
-        public IndicatorViewModel IndicatorBack { get; private set; }
+        public IndicatorViewModel<int?> IndicatorOperation { get; private set; }
+        public IndicatorViewModel<int> IndicatorCount { get; private set; }
+        public IndicatorViewModel<int?> IndicatorFirst { get; private set; }
+        public IndicatorViewModel<int?> IndicatorLast { get; private set; }
         #endregion
 
         #region Операции
@@ -30,8 +35,20 @@ namespace VisualizationAssociativeQueue.ViewModels
             {
                 var isChangedProperty = SetProperty(ref _selectedOperation, value);
 
-                if (isChangedProperty)
-                    IndicatorOperation.Name = SelectedOperation.Name;
+                if (!isChangedProperty)
+                    return;
+
+                _associativeQueue.Operation = SelectedOperation;
+
+                #region Обновить индикатор операции
+                IndicatorOperation.Name = SelectedOperation.Name;
+
+                if (_associativeQueue.Count != 0)
+                {
+                    IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+                    IndicatorOperation.SolidColorBrush = Brushes.Green;
+                }
+                #endregion
             }
         }
         #endregion
@@ -41,25 +58,58 @@ namespace VisualizationAssociativeQueue.ViewModels
         #region Команды
 
         #region Добавить элемент
-        public RelayCommand<string?> PushCommand { get; private set; }
+        public RelayCommand<string?> EnqueueCommand { get; private set; }
 
-        private void ExecutePushCommand(string? strNumber)
+        private void ExecuteEnqueueCommand(string? strNumber)
         {
+            var number = int.Parse(strNumber!);
 
+            _associativeQueue.Enqueue(number);
+
+            DequeueCommand.NotifyCanExecuteChanged();
+
+            #region Обновление индикаторов
+            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorCount.Value = _associativeQueue.Count;
+            IndicatorFirst.Value = _associativeQueue.Peek();
+            IndicatorLast.Value = number;
+
+            if (_associativeQueue.Count != 1)
+                IndicatorFirst.SolidColorBrush = Brushes.Black;
+            #endregion
         }
 
-        private bool CanExecutePushCommand(string? strNumber) => int.TryParse(strNumber, out _);
+        private bool CanExecuteEnqueueCommand(string? strNumber) => int.TryParse(strNumber, out _);
         #endregion
 
         #region Удалить элемент
-        public RelayCommand PopCommand { get; private set; }
+        public RelayCommand DequeueCommand { get; private set; }
 
-        private void ExecutePopCommand()
+        private void ExecuteDequeueCommand()
         {
+            _associativeQueue.Dequeue();
 
+            DequeueCommand.NotifyCanExecuteChanged();
+
+            #region Обновление индикаторов
+            IndicatorCount.Value = _associativeQueue.Count;
+
+            if (_associativeQueue.Count == 0)
+            {
+                IndicatorOperation.Value = null;
+                IndicatorFirst.Value = null;
+                IndicatorLast.Value = null;
+            }
+            else
+            {
+                IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+                IndicatorFirst.Value = _associativeQueue.Peek();
+                IndicatorLast.SolidColorBrush = Brushes.Black;
+            }
+            #endregion
         }
 
-        private bool CanExecutePopCommand() => false;
+        private bool CanExecuteDequeueCommand() => _associativeQueue.Count != 0;
         #endregion
 
         #region
@@ -70,7 +120,15 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         private void ExecuteClearCommand()
         {
+            _associativeQueue.Clear();
 
+            #region Обновить индикаторы
+            IndicatorOperation.Value = null;
+            IndicatorFirst.Value = null;
+            IndicatorLast.Value = null;
+
+            IndicatorCount.Value = 0;
+            #endregion
         }
         #endregion
 
@@ -93,15 +151,44 @@ namespace VisualizationAssociativeQueue.ViewModels
             string nameOperation = "Max";
 
             #region Индикаторы
-            IndicatorOperation = new() { Name = nameOperation, SolidColorBrush = Brushes.Red };
-            IndicatorCount = new() { Name = "Count", Value = 0, SolidColorBrush = Brushes.Red };
-            IndicatorFront = new() { Name = "Front", SolidColorBrush = Brushes.Red };
-            IndicatorBack = new() { Name = "Back", SolidColorBrush = Brushes.Red };
+            IndicatorOperation = new() { 
+                Name = nameOperation, 
+                SolidColorBrush = Brushes.Red,
+                // Значение операции null? Цвет - красный.
+                // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
+                ChangeSolidColorBrush = (int? oldValue, int? newValue) => 
+                    newValue == null ? Brushes.Red : 
+                        oldValue != newValue ? Brushes.Green : Brushes.Black,
+            };
+
+            IndicatorCount = new() { 
+                Name = "Count", Value = 0, 
+                SolidColorBrush = Brushes.Red,
+                // Число элементов 0? Цвет - красный, иначе чёрный. 
+                ChangeSolidColorBrush = (int _, int newValue) => 
+                    newValue == 0 ? Brushes.Red : Brushes.Black,
+            };
+
+            IndicatorFirst = new() { 
+                Name = "First",
+                SolidColorBrush = Brushes.Red,
+                // Первый элемент null? Цвет - красный, иначе зелёный. 
+                ChangeSolidColorBrush = (int? _, int? newValue) => 
+                    newValue == null ? Brushes.Red : Brushes.Green,
+            };
+
+            IndicatorLast = new() { 
+                Name = "Last",
+                SolidColorBrush = Brushes.Red,
+                // Последний элемент null? Цвет - красный, иначе зелёный. 
+                ChangeSolidColorBrush = (int? _, int? newValue) => 
+                    newValue == null ? Brushes.Red : Brushes.Green,
+            };
             #endregion
 
             #region Команды
-            PushCommand = new(ExecutePushCommand, CanExecutePushCommand);
-            PopCommand = new(ExecutePopCommand, CanExecutePopCommand);
+            EnqueueCommand = new(ExecuteEnqueueCommand, CanExecuteEnqueueCommand);
+            DequeueCommand = new(ExecuteDequeueCommand, CanExecuteDequeueCommand);
             ClearCommand = new(ExecuteClearCommand);
             GenerateCommand = new(ExecuteGenerateCommand, CanExecuteGenerateCommand);
             #endregion
@@ -109,6 +196,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             #region Операции и выбранная операция
             Operations = СollectorOperations.GetAssociativeOperations();
             _selectedOperation = Operations.Where(operation => operation.Name == nameOperation).First();
+            #endregion
+
+            #region Ассоциативная очередь
+            _associativeQueue = new() { Operation = _selectedOperation };
             #endregion
         }
     }
