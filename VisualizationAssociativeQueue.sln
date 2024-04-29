@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssociativeLibrary", "Assoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForeignAssociativeOperationLibrary", "ForeignAssociativeOperationLibrary\ForeignAssociativeOperationLibrary.csproj", "{EF7C37E1-7ED9-44B4-B9D3-9B9DF0080CFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionLibrary", "CollectionLibrary\CollectionLibrary.csproj", "{AF664474-CF79-4223-89F8-098289591BC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionLibrary", "CollectionLibrary\CollectionLibrary.csproj", "{AF664474-CF79-4223-89F8-098289591BC5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCollectionLibrary", "TestCollectionLibrary\TestCollectionLibrary.csproj", "{F3A460F9-F725-409E-97C0-D60779E4BF6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{AF664474-CF79-4223-89F8-098289591BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF664474-CF79-4223-89F8-098289591BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF664474-CF79-4223-89F8-098289591BC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A460F9-F725-409E-97C0-D60779E4BF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A460F9-F725-409E-97C0-D60779E4BF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A460F9-F725-409E-97C0-D60779E4BF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A460F9-F725-409E-97C0-D60779E4BF6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
