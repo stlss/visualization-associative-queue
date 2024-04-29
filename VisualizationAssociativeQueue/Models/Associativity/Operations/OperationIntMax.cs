@@ -6,7 +6,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity.Operations
     {
         public string Name => "Max";
 
-        public string Description => "Вычисляет максимум";
+        public string Description => "Максимальный элемент в очереди";
 
         public Func<int, int, int> Func => Math.Max;
     }

@@ -6,7 +6,7 @@ namespace ForeignAssociativeOperationLibrary
     {
         public string Name => "Gcd";
 
-        public string Description => "Вычисляет наибольший общий делитель";
+        public string Description => "Наибольший общий делитель элементов в очереди";
 
         public Func<int, int, int> Func => GetGcd;
 

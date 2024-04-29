@@ -6,7 +6,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity.Operations
     {
         public string Name => "Min";
 
-        public string Description => "Вычисляет минимум";
+        public string Description => "Минимальный элемент в очереди";
 
         public Func<int, int, int> Func => Math.Min;
     }

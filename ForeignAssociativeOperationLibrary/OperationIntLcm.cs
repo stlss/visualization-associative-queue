@@ -6,7 +6,7 @@ namespace ForeignAssociativeOperationLibrary
     {
         public string Name => "Lcm";
 
-        public string Description => "Вычисляет наименьшее общее кратное";
+        public string Description => "Наименьшее общее кратное элементов в очереди";
 
         public Func<int, int, int> Func => GetLcm;
 
