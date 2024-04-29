@@ -16,11 +16,11 @@ namespace CollectionLibrary.Associative
             _onlyAssociativeStack = new();
         }
 
-        public AssociativeStack(IEnumerable<T> collection) : base(collection)
+        public AssociativeStack(IEnumerable<T> collection) : base(collection.Count())
         {
             _onlyAssociativeStack = new(collection.Count());
 
-            foreach (var item in collection)
+            foreach (var item in collection.Reverse())
                 Push(item);
         }
 
@@ -94,7 +94,9 @@ namespace CollectionLibrary.Associative
                 ExceptionWizard.ThrowEmptyAssociativeCollection(this);
 
             var item = base.Pop();
-            _onlyAssociativeStack.Pop();
+
+            if (Operation != null)
+                _onlyAssociativeStack.Pop();
 
             return item;
         }
