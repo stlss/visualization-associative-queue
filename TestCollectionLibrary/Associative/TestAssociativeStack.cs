@@ -82,7 +82,7 @@ namespace TestCollectionLibrary.Associative
             var stack = new AssociativeStack<int>() { Operation = new OperationSum() };
             int sum = 0, product = 1;
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 stack.Push(i);
 
@@ -90,7 +90,7 @@ namespace TestCollectionLibrary.Associative
                 product *= i;
             }
 
-            for (int i = 9; i >= 5; i--)
+            for (int i = 10; i >= 5; i--)
             {
                 stack.Pop();
 
