@@ -81,7 +81,7 @@ namespace TestCollectionLibrary.Associative
         [Fact]
         public void TestGetResultAssociativeOperation()
         {
-            var queue = new AssociativeQueue<int>() { Operation = new OperationSum() };
+            var queue = new AssociativeQueue<int>() { Operation = new OperationIntSum() };
             int sum = 0, product = 1;
 
             for (int i = 1; i <= 10; i++)
@@ -105,7 +105,7 @@ namespace TestCollectionLibrary.Associative
             queue.Operation = null;
             Assert.Throws(new InvalidOperationException().GetType(), () => queue.GetResultAssociativeOperation());
 
-            queue.Operation = new OperationProduct();
+            queue.Operation = new OperationIntProduct();
             Assert.Equal(product, queue.GetResultAssociativeOperation());
         }
     }

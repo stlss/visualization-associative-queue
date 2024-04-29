@@ -2,15 +2,15 @@
 
 namespace ForeignAssociativeOperationLibrary
 {
-    public class OperationLcm : IAssociativeOperation<int>
+    public class OperationIntLcm : IAssociativeOperation<int>
     {
         public string Name => "Lcm";
 
         public string Description => "Вычисляет наименьшее общее кратное";
 
-        public Func<int, int, int> Operation => GetLcm;
+        public Func<int, int, int> Func => GetLcm;
 
 
-        private int GetLcm(int x1, int x2) => x1 * x2 / new OperationGcd().Operation(x1, x2);
+        private int GetLcm(int x1, int x2) => x1 * x2 / new OperationIntGcd().Func(x1, x2);
     }
 }

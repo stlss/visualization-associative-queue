@@ -79,7 +79,7 @@ namespace TestCollectionLibrary.Associative
         [Fact]
         public void TestGetResultAssociativeOperation() 
         {
-            var stack = new AssociativeStack<int>() { Operation = new OperationSum() };
+            var stack = new AssociativeStack<int>() { Operation = new OperationIntSum() };
             int sum = 0, product = 1;
 
             for (int i = 1; i <= 10; i++)
@@ -103,7 +103,7 @@ namespace TestCollectionLibrary.Associative
             stack.Operation = null;
             Assert.Throws(new InvalidOperationException().GetType(), () => stack.GetResultAssociativeOperation());
 
-            stack.Operation = new OperationProduct();
+            stack.Operation = new OperationIntProduct();
             Assert.Equal(product, stack.GetResultAssociativeOperation());
         }
     }

@@ -6,6 +6,6 @@
 
         public string Description { get; }
 
-        public Func<T, T, T> Operation { get; }
+        public Func<T, T, T> Func { get; }
     }
 }

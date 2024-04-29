@@ -85,7 +85,7 @@ namespace CollectionLibrary.Associative
             if (_onlyAssociativeStack.Count == 0)
                 _onlyAssociativeStack.Push(item);
             else
-                _onlyAssociativeStack.Push(Operation.Operation(item, _onlyAssociativeStack.Peek()));
+                _onlyAssociativeStack.Push(Operation.Func(item, _onlyAssociativeStack.Peek()));
         }
 
         public new T Pop()

@@ -2,12 +2,12 @@
 
 namespace VisualizationAssociativeQueue.Models.Associativity.Operations
 {
-    internal class OperationMin : IAssociativeOperation<int>
+    internal class OperationIntMin : IAssociativeOperation<int>
     {
         public string Name => "Min";
 
         public string Description => "Вычисляет минимум";
 
-        public Func<int, int, int> Operation => Math.Min;
+        public Func<int, int, int> Func => Math.Min;
     }
 }

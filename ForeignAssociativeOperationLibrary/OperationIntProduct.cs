@@ -2,12 +2,12 @@
 
 namespace ForeignAssociativeOperationLibrary
 {
-    public class OperationProduct : IAssociativeOperation<int>
+    public class OperationIntProduct : IAssociativeOperation<int>
     {
         public string Name => "Product";
 
         public string Description => "Вычисляет произведение";
 
-        public Func<int, int, int> Operation => (int x1, int x2) => x1 * x2;
+        public Func<int, int, int> Func => (int x1, int x2) => x1 * x2;
     }
 }

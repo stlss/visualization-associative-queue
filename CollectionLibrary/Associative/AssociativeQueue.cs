@@ -78,7 +78,7 @@ namespace CollectionLibrary.Associative
             if (!isNotEmptyPopStack)
                 return valueOperationPushStack!;
 
-            return Operation!.Operation(valueOperationPushStack!, valueOperationPopStack!);
+            return Operation!.Func(valueOperationPushStack!, valueOperationPopStack!);
         }
 
         public bool TryGetResultAssociativeOperation(out T? result)
