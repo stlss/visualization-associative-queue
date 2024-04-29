@@ -23,13 +23,13 @@ namespace CollectionLibrary.Associative
             _popStack = new();
         }
 
-        public AssociativeQueue(IEnumerable<T> collection) : base(collection)
+        public AssociativeQueue(IEnumerable<T> collection) : base(collection.Count())
         {
             _pushStack = new(collection.Count());
             _popStack = new();
 
             foreach (var item in collection)
-                _pushStack.Push(item);
+                Enqueue(item);
         }
 
         public AssociativeQueue(int capacity) : base(capacity)
@@ -49,6 +49,8 @@ namespace CollectionLibrary.Associative
             set
             {
                 _operation = value;
+                _pushStack.Operation = value;
+                _popStack.Operation = value;
 
                 var items = ToArray();
                 Clear();
