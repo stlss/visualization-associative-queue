@@ -1,4 +1,5 @@
 ﻿using AssociativeLibrary;
+using System.Reflection;
 
 namespace CollectionLibrary.Associative
 {
@@ -8,6 +9,8 @@ namespace CollectionLibrary.Associative
         /// Стек, i-ый элемент которого является результатом ассоциативной операции (0-го, 1-го, ..., i-ого) элементов основного стека. 
         /// </summary>
         private readonly Stack<T> _onlyAssociativeStack;
+
+        private readonly PropertyInfo _propertyOperation = typeof(AssociativeStack<T>).GetProperty("Operation")!;
 
 
         #region Конструкторы
@@ -52,10 +55,10 @@ namespace CollectionLibrary.Associative
         public T GetResultAssociativeOperation()
         {
             if (Count == 0)
-                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
+                ExceptionWizard.ThrowEmptyCollection(this);
 
             if (Operation == null)
-                ExceptionWizard.ThrowNullOperationAssociativeCollection(this);
+                ExceptionWizard.ThrowNullPropertyCollection(this, _propertyOperation);
 
             return _onlyAssociativeStack.Peek();
         }
@@ -91,7 +94,7 @@ namespace CollectionLibrary.Associative
         public new T Pop()
         {
             if (Count == 0)
-                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
+                ExceptionWizard.ThrowEmptyCollection(this);
 
             var item = base.Pop();
 
