@@ -20,7 +20,7 @@ namespace CollectionLibrary.Associative
         {
             _onlyAssociativeStack = new(collection.Count());
 
-            foreach (var item in collection.Reverse())
+            foreach (var item in collection)
                 Push(item);
         }
 
