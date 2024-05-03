@@ -48,7 +48,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
+                <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="PushStack"/>
                 </Viewbox>
             </Grid>
@@ -60,7 +60,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
+                <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="PopStack"/>
                 </Viewbox>
             </Grid>
@@ -73,7 +73,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
+                <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Push{0}Stack"
                            Content="{Binding SelectedOperation.Name}"/>
                 </Viewbox>
@@ -86,7 +86,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
+                <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Pop{0}Stack"
                            Content="{Binding SelectedOperation.Name}"/>
                 </Viewbox>
@@ -100,9 +100,18 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
-                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="UsualQueue"/>
+                <Viewbox Grid.Row="0">
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="Queue"/>
                 </Viewbox>
+
+                <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <Viewbox>
+                        <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.Queue}"
+                                      ItemsPanel="{StaticResource ItemsPanelVisualizationTemplate}"
+                                      ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+                    </Viewbox>
+                </ScrollViewer>
+                
             </Grid>
 
             <!--Вычисление ассоциативной операции-->
@@ -112,7 +121,7 @@
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
-                <Viewbox>
+                <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Get{0}"
                            Content="{Binding SelectedOperation.Name}"/>
                 </Viewbox>
