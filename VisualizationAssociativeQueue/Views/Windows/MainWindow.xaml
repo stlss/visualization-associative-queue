@@ -27,6 +27,98 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
+    
+        <!--Область визуализации-->
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <!--Пуш-стек-->
+            <Grid Grid.Row="0" Grid.Column="0" Margin="0 0 5 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="PushStack"/>
+                </Viewbox>
+            </Grid>
+
+            <!--Поп-стек-->
+            <Grid Grid.Row="0" Grid.Column="1" Margin="5 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="PopStack"/>
+                </Viewbox>
+            </Grid>
+
+            
+            <!--Пуш-ассоцитивный-стек-->
+            <Grid Grid.Row="1" Grid.Column="0" Margin="0 0 5 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Push{0}Stack"
+                           Content="{Binding SelectedOperation.Name}"/>
+                </Viewbox>
+            </Grid>
+
+            <!--Поп-ассоцитивный-стек-->
+            <Grid Grid.Row="1" Grid.Column="1" Margin="5 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Pop{0}Stack"
+                           Content="{Binding SelectedOperation.Name}"/>
+                </Viewbox>
+            </Grid>
+
+
+            <!--Обычная очередь-->
+            <Grid Grid.Row="2" Grid.Column="0" Margin="0 0 5 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="UsualQueue"/>
+                </Viewbox>
+            </Grid>
+
+            <!--Вычисление ассоциативной операции-->
+            <Grid Grid.Row="2" Grid.Column="1" Margin="5 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Get{0}"
+                           Content="{Binding SelectedOperation.Name}"/>
+                </Viewbox>
+            </Grid>
+        </Grid>
+        
 
         <!--Область управления-->
         <Grid Grid.Row="1">
