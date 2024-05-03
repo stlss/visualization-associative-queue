@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace CollectionLibrary.Observable
 {
@@ -12,6 +13,16 @@ namespace CollectionLibrary.Observable
             CollectionChanged?.Invoke(this, e);
         }
         #endregion
+
+
+        #region Конструкторы
+        public ObservableStack() : base() { }
+
+        public ObservableStack(IEnumerable<T> collection) : base(collection) { }
+
+        public ObservableStack(int capacity) : base(capacity) { }
+        #endregion
+
 
         #region Сокрытие Push, Pop, TryPop и Clear
         public new void Push(T item)

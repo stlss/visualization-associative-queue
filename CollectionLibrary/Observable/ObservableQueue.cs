@@ -13,6 +13,16 @@ namespace CollectionLibrary.Observable
         }
         #endregion
 
+
+        #region Конструкторы
+        public ObservableQueue() : base() { }
+
+        public ObservableQueue(IEnumerable<T> collection) : base(collection) { }
+
+        public ObservableQueue(int capacity) : base(capacity) { }
+        #endregion
+
+
         #region Сокрытие Enqueue, Dequeue, TryDequeue и Clear
         public new void Enqueue(T item)
         {
