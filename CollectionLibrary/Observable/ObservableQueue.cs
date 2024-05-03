@@ -36,7 +36,7 @@ namespace CollectionLibrary.Observable
                 ExceptionWizard.ThrowEmptyCollection(this);
 
             var item = base.Dequeue();
-            OnCollectionChanged(new(NotifyCollectionChangedAction.Remove, item));
+            OnCollectionChanged(new(NotifyCollectionChangedAction.Remove, item, 0));
 
             return item;
         }
