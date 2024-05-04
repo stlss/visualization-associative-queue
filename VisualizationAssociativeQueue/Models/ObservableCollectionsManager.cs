@@ -38,6 +38,9 @@ namespace VisualizationAssociativeQueue.Models
             UpdateCollections();
 
             var item = new ElementViewModel<int>(number);
+
+            PushStack.Push(item);
+
             Queue.Enqueue(item);
             _lastItem = item;
         }
@@ -46,6 +49,13 @@ namespace VisualizationAssociativeQueue.Models
         {
             UpdateCollections();
 
+            if (PopStack.Count == 0)
+            {
+                while (PushStack.Count > 0)
+                    PopStack.Push(PushStack.Pop());
+            }
+
+            PopStack.Peek().Status = ElementStatus.Deleted;
             Queue.Peek().Status = ElementStatus.Deleted;
         }
 

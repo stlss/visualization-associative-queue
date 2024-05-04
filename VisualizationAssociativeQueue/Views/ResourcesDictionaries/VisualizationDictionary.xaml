@@ -18,18 +18,30 @@
     </Style>
 
 
-    <Style x:Key="ImageVisualizationStyle" TargetType="Image">
-        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Arrow.png"/>
-        <Setter Property="Width" Value="55"/>
+    <Style x:Key="BaseImageVisualizationStyle" TargetType="Image">
         <Setter Property="Height" Value="55"/>
-        <Setter Property="Margin" Value="2.5"/>
+        <Setter Property="Margin" Value="0 2.5 2.5 2.5"/>
     </Style>
 
-    <ItemsPanelTemplate x:Key="ItemsPanelVisualizationTemplate">
+    <Style x:Key="ImageStandStackVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/StandStack.png"/>
+    </Style>
+
+    <Style x:Key="ImageArrowVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Arrow.png"/>
+    </Style>
+
+
+    <ItemsPanelTemplate x:Key="ItemsPanelRightToLeftVisualizationTemplate">
         <StackPanel Orientation="Horizontal" 
-                    FlowDirection="RightToLeft"
-                    Margin="0 0 0 0"/>
+                    FlowDirection="RightToLeft"/>
     </ItemsPanelTemplate>
+
+    <ItemsPanelTemplate x:Key="ItemsPanelLeftToRightVisualizationTemplate">
+        <StackPanel Orientation="Horizontal" 
+                    FlowDirection="LeftToRight"/>
+    </ItemsPanelTemplate>
+    
 
     <DataTemplate x:Key="ItemVisualizationTemplate">
 
