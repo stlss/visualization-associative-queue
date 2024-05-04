@@ -34,8 +34,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
                 var isChangedProperty = SetProperty(ref _value, value);
 
-                if (isChangedProperty)
-                    OnPropertyChanged(nameof(DisplayValue));
+                if (!isChangedProperty)
+                    return;
+
+                OnPropertyChanged(nameof(DisplayValue));
             }
         }
         #endregion
@@ -45,7 +47,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         #endregion
 
         #region Цвет
-        private SolidColorBrush _solidColorBrush = Brushes.Black;
+        private SolidColorBrush _solidColorBrush = Brushes.Red;
         public SolidColorBrush SolidColorBrush
         {
             get => _solidColorBrush;

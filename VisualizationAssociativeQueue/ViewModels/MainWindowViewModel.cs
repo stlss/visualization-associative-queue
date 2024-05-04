@@ -197,7 +197,6 @@ namespace VisualizationAssociativeQueue.ViewModels
             { 
                 Name = nameOperation, 
                 Description = _selectedOperation.Description, 
-                SolidColorBrush = Brushes.Red,
 
                 // Значение операции null? Цвет - красный.
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
@@ -210,7 +209,6 @@ namespace VisualizationAssociativeQueue.ViewModels
             { 
                 Name = "Count", 
                 Description = "Число элементов в очереди",
-                SolidColorBrush = Brushes.Red,
                 Value = 0,
 
                 // Число элементов 0? Цвет - красный, иначе чёрный. 
@@ -222,7 +220,6 @@ namespace VisualizationAssociativeQueue.ViewModels
             { 
                 Name = "First", 
                 Description = "Первый элемент в очереди",
-                SolidColorBrush = Brushes.Red,
 
                 // Первый элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 
@@ -233,7 +230,6 @@ namespace VisualizationAssociativeQueue.ViewModels
             { 
                 Name = "Last", 
                 Description = "Последний элемент в очереди",
-                SolidColorBrush = Brushes.Red,
 
                 // Последний элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 

@@ -1,5 +1,6 @@
 ﻿using AssociativeLibrary;
 using CollectionLibrary.Observable;
+using VisualizationAssociativeQueue.Models.Statuses;
 using VisualizationAssociativeQueue.ViewModels;
 
 namespace VisualizationAssociativeQueue.Models
@@ -31,8 +32,15 @@ namespace VisualizationAssociativeQueue.Models
 
                 UpdateAssociativeStack(PushStack, PushAssociativeStack);
                 UpdateAssociativeStack(PopStack, PopAssociativeStack);
+
+                UpdateStackPeekViewModels();
             }
         }
+
+        public StackPeekViewModel<int?> PushStackPeekViewModel { get; private set; } = new();
+        public StackPeekViewModel<int?> PopStackPeekViewModel { get; private set; } = new();
+
+        public StackPeekViewModel<int?> ResultOperationViewModel { get; private set; } = new();
         #endregion
 
 
@@ -59,6 +67,8 @@ namespace VisualizationAssociativeQueue.Models
 
             Queue.Enqueue(item);
             _lastItem = item;
+
+            UpdateStackPeekViewModels();
         }
 
         public void Dequeue()
@@ -84,6 +94,8 @@ namespace VisualizationAssociativeQueue.Models
             PopStack.Peek().Status = ElementStatus.Deleted;
             PopAssociativeStack.Peek().Status = ElementStatus.Deleted;
             Queue.Peek().Status = ElementStatus.Deleted;
+
+            UpdateStackPeekViewModels();
         }
 
         public void Clear() 
@@ -92,6 +104,8 @@ namespace VisualizationAssociativeQueue.Models
                 stack.Clear();
 
             Queue.Clear();
+
+            UpdateStackPeekViewModels();
         }
 
         public void Generate()
@@ -133,6 +147,54 @@ namespace VisualizationAssociativeQueue.Models
 
             for (int i = stack.Count - 2; i >= 0; i--)
                 associativeList[i].Value = Operation.Func(associativeList[i + 1].Value, list[i].Value); 
+        }
+
+        private int? GetPeek(ObservableStack<ElementViewModel<int>> stack)
+        {
+            if (stack.Count == 0 || (stack.Count == 1 && stack.Peek().Status == ElementStatus.Deleted))
+                return null;
+
+            if (stack.Peek().Status == ElementStatus.Deleted)
+            {
+                var item = PopAssociativeStack.Pop();
+                int value = PopAssociativeStack.Peek().Value;
+                PopAssociativeStack.Push(item);
+
+                return value;
+            }
+
+            return stack.Peek().Value;
+        }
+
+        private void UpdateResultOperationViewModel()
+        {
+            if (PushStackPeekViewModel.Value == null && PopStackPeekViewModel.Value == null)
+            {
+                ResultOperationViewModel.Value = null;
+                return;
+            }
+
+            if (PushStackPeekViewModel.Value == null)
+            {
+                ResultOperationViewModel.Value = PopStackPeekViewModel.Value;
+                return;
+            }
+
+            if (PopStackPeekViewModel.Value == null)
+            {
+                ResultOperationViewModel.Value = PushStackPeekViewModel.Value;
+                return;
+            }
+
+            ResultOperationViewModel.Value = Operation.Func((int)PushStackPeekViewModel.Value, (int)PopStackPeekViewModel.Value);
+        }
+
+        private void UpdateStackPeekViewModels()
+        {
+            PushStackPeekViewModel.Value = GetPeek(PushAssociativeStack);
+            PopStackPeekViewModel.Value = GetPeek(PopAssociativeStack);
+
+            UpdateResultOperationViewModel();
         }
         #endregion
     }

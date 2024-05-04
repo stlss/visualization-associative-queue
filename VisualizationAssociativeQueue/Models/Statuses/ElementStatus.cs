@@ -1,4 +1,4 @@
-﻿namespace VisualizationAssociativeQueue.Models
+﻿namespace VisualizationAssociativeQueue.Models.Statuses
 {
     internal enum ElementStatus
     {
