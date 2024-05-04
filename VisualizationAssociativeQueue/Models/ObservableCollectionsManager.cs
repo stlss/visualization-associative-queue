@@ -12,6 +12,7 @@ namespace VisualizationAssociativeQueue.Models
     {
         #region Поля
         private readonly ObservableStack<ElementViewModel<int>>[] _stacks;
+        private readonly StackPeekViewModel<int?>[] _stackPeekviewModels;
         private ElementViewModel<int>? _lastItem;
         private IAssociativeOperation<int> _operation;
         #endregion
@@ -37,6 +38,10 @@ namespace VisualizationAssociativeQueue.Models
                 UpdateAssociativeStack(PopStack, PopAssociativeStack);
 
                 UpdateStackPeekViewModels();
+
+                foreach (var stackPeekViewModel in _stackPeekviewModels)
+                    if (stackPeekViewModel.Value != null)
+                        stackPeekViewModel.Status = StackPeekStatus.New;
             }
         }
 
@@ -50,6 +55,8 @@ namespace VisualizationAssociativeQueue.Models
         public ObservableCollectionsManager(IAssociativeOperation<int> operation)
         {
             _stacks = [PushStack, PopStack, PushAssociativeStack, PopAssociativeStack];
+            _stackPeekviewModels = [PushAssociativeStackPeekViewModel, PopAssociativeStackPeekViewModel, ResultAssociativeOperationViewModel];
+
             _operation = operation;
         }
 
