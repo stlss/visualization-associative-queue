@@ -17,7 +17,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         #endregion
 
         #region Статус
-        private ElementStatus _status;
+        private ElementStatus _status = ElementStatus.Old;
         public ElementStatus Status 
         {
             get => _status;

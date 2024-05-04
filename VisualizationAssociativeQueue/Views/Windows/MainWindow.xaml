@@ -93,7 +93,7 @@
                             <!--Подставка под стек-->
                             <Image Style="{StaticResource ImageStandStackVisualizationStyle}"/>
 
-                            <!--Содержимое пуш-стека-->
+                            <!--Содержимое поп-стека-->
                             <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PopStack}"
                                           ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
@@ -110,10 +110,29 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-
+    
+                <!--Название области-->
                 <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Push{0}Stack"
                            Content="{Binding SelectedOperation.Name}"/>
+                </Viewbox>
+
+                <!--Отображение содержимого области-->
+                <Viewbox Grid.Row="1">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                        <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
+                                    HorizontalAlignment="Right" FlowDirection="RightToLeft">
+
+                            <!--Подставка под стек-->
+                            <Image Style="{StaticResource ImageStandStackVisualizationStyle}"/>
+
+                            <!--Содержимое пуш-ассоцитивного-стека-->
+                            <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PushAssociativeStack}"
+                                          ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
+                                          ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
                 </Viewbox>
             </Grid>
 
@@ -123,10 +142,29 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-
+                
+                <!--Название области-->
                 <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Pop{0}Stack"
                            Content="{Binding SelectedOperation.Name}"/>
+                </Viewbox>
+
+                <!--Отображение содержимого области-->
+                <Viewbox Grid.Row="1">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                        <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
+                                    HorizontalAlignment="Left" FlowDirection="LeftToRight">
+
+                            <!--Подставка под стек-->
+                            <Image Style="{StaticResource ImageStandStackVisualizationStyle}"/>
+
+                            <!--Содержимое поп-ассоцитивного-стека-->
+                            <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PopAssociativeStack}"
+                                          ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
+                                          ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                        </StackPanel>
+                    </ScrollViewer>
                 </Viewbox>
             </Grid>
 

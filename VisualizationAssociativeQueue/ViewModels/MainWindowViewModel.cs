@@ -41,6 +41,7 @@ namespace VisualizationAssociativeQueue.ViewModels
                     return;
 
                 _associativeQueue.Operation = SelectedOperation;
+                ObservableCollectionsManager.Operation = SelectedOperation;
 
                 #region Обновить индикатор операции
                 IndicatorOperation.Name = SelectedOperation.Name;
