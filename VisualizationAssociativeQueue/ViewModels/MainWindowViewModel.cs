@@ -2,11 +2,16 @@
 using CollectionLibrary.Associative;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
+using VisualizationAssociativeQueue.Models;
 using VisualizationAssociativeQueue.Models.Associativity;
 using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
+    /// <summary>
+    /// Вьюмодель главного окна.
+    /// </summary>
     internal class MainWindowViewModel : ObservableObject
     {
         #region Поля
@@ -31,7 +36,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         public IAssociativeOperation<int> SelectedOperation
         {
             get => _selectedOperation;
-            set 
+            set
             {
                 var isChangedProperty = SetProperty(ref _selectedOperation, value);
 
@@ -39,6 +44,7 @@ namespace VisualizationAssociativeQueue.ViewModels
                     return;
 
                 _associativeQueue.Operation = SelectedOperation;
+                ObservableCollectionsManager.Operation = SelectedOperation;
 
                 #region Обновить индикатор операции
                 IndicatorOperation.Name = SelectedOperation.Name;
@@ -54,6 +60,19 @@ namespace VisualizationAssociativeQueue.ViewModels
         }
         #endregion
 
+        #region Менеджер наблюдаемых коллекций
+        public ObservableCollectionsManager ObservableCollectionsManager { get; private set; }
+        #endregion
+
+        #region Видимость стрелочки в отображении содержимого очереди
+        private Visibility _arrowVisibility;
+        public Visibility ArrowVisibility
+        {
+            get => _arrowVisibility;
+            set => SetProperty(ref _arrowVisibility, value);
+        }
+        #endregion
+
         #endregion
 
         #region Команды
@@ -66,6 +85,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             var number = int.Parse(strNumber!);
 
             _associativeQueue.Enqueue(number);
+            ObservableCollectionsManager.Enqueue(number);
 
             DequeueCommand.NotifyCanExecuteChanged();
 
@@ -78,6 +98,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             if (_associativeQueue.Count != 1)
                 IndicatorFirst.SolidColorBrush = Brushes.Black;
             #endregion
+
+            #region Обновление видимости стрелочки в отображении содержимого очереди
+            ArrowVisibility = Visibility.Visible;
+            #endregion
         }
 
         private bool CanExecuteEnqueueCommand(string? strNumber) => int.TryParse(strNumber, out _);
@@ -89,6 +113,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         private void ExecuteDequeueCommand()
         {
             _associativeQueue.Dequeue();
+            ObservableCollectionsManager.Dequeue();
 
             DequeueCommand.NotifyCanExecuteChanged();
 
@@ -113,15 +138,13 @@ namespace VisualizationAssociativeQueue.ViewModels
         private bool CanExecuteDequeueCommand() => _associativeQueue.Count != 0;
         #endregion
 
-        #region
-        #endregion
-
         #region Очистить очередь
         public RelayCommand ClearCommand { get; private set; }
 
         private void ExecuteClearCommand()
         {
             _associativeQueue.Clear();
+            ObservableCollectionsManager.Clear();
 
             #region Обновить индикаторы
             IndicatorOperation.Value = null;
@@ -129,6 +152,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             IndicatorLast.Value = null;
 
             IndicatorCount.Value = 0;
+            #endregion
+
+            #region Обновление видимости стрелочки в отображении содержимого очереди
+            ArrowVisibility = Visibility.Collapsed;
             #endregion
         }
         #endregion
@@ -160,10 +187,20 @@ namespace VisualizationAssociativeQueue.ViewModels
             _associativeQueue = new() { Operation = _selectedOperation };
             #endregion
 
+            #region Менеджер наблюдаемых коллекций
+            ObservableCollectionsManager = new(_selectedOperation);
+            #endregion
+
+            #region Видимость стрелочки в отображении содержимого очереди
+            _arrowVisibility = Visibility.Collapsed;
+            #endregion
+
             #region Индикаторы
-            IndicatorOperation = new() { 
-                Name = nameOperation, Description = _selectedOperation.Description, 
-                Value = null, SolidColorBrush = Brushes.Red,
+            IndicatorOperation = new() 
+            { 
+                Name = nameOperation, 
+                Description = _selectedOperation.Description, 
+
                 // Значение операции null? Цвет - красный.
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
                 ChangeSolidColorBrush = (int? oldValue, int? newValue) => 
@@ -171,25 +208,32 @@ namespace VisualizationAssociativeQueue.ViewModels
                         oldValue != newValue ? Brushes.Green : Brushes.Black,
             };
 
-            IndicatorCount = new() { 
-                Name = "Count", Description = "Число элементов в очереди",
-                Value = 0, SolidColorBrush = Brushes.Red,
+            IndicatorCount = new() 
+            { 
+                Name = "Count", 
+                Description = "Число элементов в очереди",
+                Value = 0,
+
                 // Число элементов 0? Цвет - красный, иначе чёрный. 
                 ChangeSolidColorBrush = (int _, int newValue) => 
                     newValue == 0 ? Brushes.Red : Brushes.Black,
             };
 
-            IndicatorFirst = new() { 
-                Name = "First", Description = "Первый элемент в очереди",
-                Value = null, SolidColorBrush = Brushes.Red,
+            IndicatorFirst = new() 
+            { 
+                Name = "First", 
+                Description = "Первый элемент в очереди",
+
                 // Первый элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
 
-            IndicatorLast = new() { 
-                Name = "Last", Description = "Последний элемент в очереди",
-                Value = null, SolidColorBrush = Brushes.Red,
+            IndicatorLast = new() 
+            { 
+                Name = "Last", 
+                Description = "Последний элемент в очереди",
+
                 // Последний элемент null? Цвет - красный, иначе зелёный. 
                 ChangeSolidColorBrush = (int? _, int? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,

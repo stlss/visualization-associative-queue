@@ -3,6 +3,9 @@ using System.Windows.Media;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
+    /// <summary>
+    /// Вьюмодель индикатора очереди, который на экране (в нижней части) выглядит как название свойства очереди и его значение.
+    /// </summary>
     internal class IndicatorViewModel<T> : ObservableObject
     {
         #region Название
@@ -23,6 +26,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         }
         #endregion
 
+
         #region Значение
         private T? _value = default; 
         public T? Value
@@ -34,8 +38,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
                 var isChangedProperty = SetProperty(ref _value, value);
 
-                if (isChangedProperty)
-                    OnPropertyChanged(nameof(DisplayValue));
+                if (!isChangedProperty)
+                    return;
+
+                OnPropertyChanged(nameof(DisplayValue));
             }
         }
         #endregion
@@ -44,8 +50,9 @@ namespace VisualizationAssociativeQueue.ViewModels
         public string DisplayValue { get => Value?.ToString() ?? "None"; }
         #endregion
 
+
         #region Цвет
-        private SolidColorBrush _solidColorBrush = Brushes.Black;
+        private SolidColorBrush _solidColorBrush = Brushes.Red;
         public SolidColorBrush SolidColorBrush
         {
             get => _solidColorBrush;

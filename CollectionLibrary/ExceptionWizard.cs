@@ -1,4 +1,7 @@
-﻿namespace CollectionLibrary.Associative
+﻿using CollectionLibrary.Associative;
+using System.Reflection;
+
+namespace CollectionLibrary
 {
     /// <summary>
     /// Статический класс, содержащий методы для вызова исключений.
@@ -8,17 +11,17 @@
         /// <summary>
         /// Выбрасывает исключение - пустая коллекция.
         /// </summary>
-        public static void ThrowEmptyAssociativeCollection<T>(IAssociativeCollection<T> collection)
+        public static void ThrowEmptyCollection<T>(IEnumerable<T> collection)
         {
             throw new InvalidOperationException($"{collection.GetType().Name} is empty.");
         }
 
         /// <summary>
-        /// Выбрасывает исключение - отсутствие ассоциативной операции.
+        /// Выбрасывает исключение - обращение к null свойству.
         /// </summary>
-        public static void ThrowNullOperationAssociativeCollection<T>(IAssociativeCollection<T> collection)
+        public static void ThrowNullPropertyCollection<T>(IEnumerable<T> collection, PropertyInfo property)
         {
-            throw new InvalidOperationException($"{collection.GetType().Name}.Operation is null.");
+            throw new InvalidOperationException($"{collection.GetType().Name}.{property.Name} is null.");
         }
     }
 }

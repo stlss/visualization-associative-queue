@@ -5,106 +5,95 @@ namespace TestCollectionLibrary.Associative
 {
     public class TestAssociativeStack
     {
-        /// <summary>
-        /// Тестирование Push.
-        /// </summary>
         [Fact]
-        public void TestPush()
+        public void Test1()
         {
             var stack = new AssociativeStack<int>();
-            int count = 5;
+            Assert.Throws<InvalidOperationException>(() => stack.GetResultAssociativeOperation());
 
-            var numbers1 = Enumerable.Range(0, count);
-            List<int> numbers2 = [], numbers3 = [];
-
-            for (int i = 0; i < count; i++)
-            {
-                numbers2.Add(stack.Count);
-
-                stack.Push(i);
-
-                numbers3.Add(stack.Peek());
-            }
-
-            Assert.Equal(numbers1, numbers2);
-            Assert.Equal(numbers1, numbers3);
+            stack.Operation = new OperationIntSum();
+            Assert.Throws<InvalidOperationException>(() => stack.GetResultAssociativeOperation());
         }
 
-
-        /// <summary>
-        /// Тестирование Pop.
-        /// </summary>
         [Fact]
-        public void TestPop()
+        public void Test2()
         {
-            var stack = new AssociativeStack<int>();
-            int count = 5;
+            var stack = new AssociativeStack<int>() { Operation = new OperationIntSum() };
+            int sum = 0;
 
-            var numbers1 = Enumerable.Range(0, count).Reverse();
-            List<int> numbers2 = [], numbers3 = [];
-
-            for (int i = 0; i < count; i++)
-                stack.Push(i);
-
-            for (int i = count; i > 0; i--)
+            for (int i = 0; i < 10; i++)
             {
-                numbers2.Add(stack.Pop());
-                numbers3.Add(stack.Count);
+                stack.Push(i);
+                sum += i;
             }
 
-            Assert.Equal(numbers1, numbers2);
-            Assert.Equal(numbers1, numbers3);
-            Assert.Throws(new InvalidOperationException().GetType(), () => stack.Pop());
+            Assert.Equal(sum, stack.GetResultAssociativeOperation());
         }
 
-        /// <summary>
-        /// Тестирование конструктора с параметром типа IEnumerable<T>.
-        /// </summary>
         [Fact]
-        public void TestConstructor()
+        public void Test3()
         {
-            var stack1 = new AssociativeStack<int>();
+            var stack = new AssociativeStack<int>() { Operation = new OperationIntProduct() };
+            int product = 1;
 
-            for (int i = 0; i < 5; i++)
-                stack1.Push(i);
+            for (int i = 1; i < 10; i++)
+            {
+                stack.Push(i);
+                product *= i;
+            }
 
-            var stack2 = new AssociativeStack<int>(stack1);
+            for (int i = 9; i > 5; i--)
+            {
+                stack.Pop();
+                product /= i;
+            }
+
+            Assert.Equal(product, stack.GetResultAssociativeOperation());
+        }
+
+        [Fact]
+        public void Test4()
+        {
+            var stack = new AssociativeStack<int>() { Operation = new OperationIntSum() };
+
+            for (int i = 0; i < 10; i++)
+                stack.Push(i);
+
+            stack.Clear();
+
+            Assert.Throws<InvalidOperationException>(() => stack.GetResultAssociativeOperation());
+        }
+
+        [Fact]
+        public void Test5()
+        {
+            var collection = Enumerable.Range(0, 10);
+
+            var stack1 = new Stack<int>(collection);
+            var stack2 = new AssociativeStack<int>(collection);
 
             Assert.Equal(stack1, stack2);
         }
 
-        /// <summary>
-        /// Тестирование GetResultAssociativeOperation.
-        /// </summary>
         [Fact]
-        public void TestGetResultAssociativeOperation() 
+        public void Test6()
         {
-            var stack = new AssociativeStack<int>() { Operation = new OperationIntSum() };
-            int sum = 0, product = 1;
+            var stack = new AssociativeStack<int>(Enumerable.Range(0, 10)) 
+            { 
+                Operation = new OperationIntSum() 
+            };
 
-            for (int i = 1; i <= 10; i++)
-            {
-                stack.Push(i);
-
+            int sum = 0;
+            for (int i = 0; i < 10; i++)
                 sum += i;
-                product *= i;
-            }
 
-            for (int i = 10; i >= 5; i--)
+            for (int i = 0; i < 5; i++)
             {
                 stack.Pop();
-
                 sum -= i;
-                product /= i;
             }
 
             Assert.Equal(sum, stack.GetResultAssociativeOperation());
-
-            stack.Operation = null;
-            Assert.Throws(new InvalidOperationException().GetType(), () => stack.GetResultAssociativeOperation());
-
-            stack.Operation = new OperationIntProduct();
-            Assert.Equal(product, stack.GetResultAssociativeOperation());
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace VisualizationAssociativeQueue.Models.Associativity
 {
+    /// <summary>
+    /// Статический класс, предоставляющий метод, возвращающий список ассоциативных операций.
+    /// </summary>
     internal static class СollectorOperations
     {
         /// <summary>

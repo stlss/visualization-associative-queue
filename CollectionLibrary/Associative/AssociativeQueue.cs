@@ -1,4 +1,5 @@
 ﻿using AssociativeLibrary;
+using System.Reflection;
 
 namespace CollectionLibrary.Associative
 {
@@ -14,6 +15,8 @@ namespace CollectionLibrary.Associative
         /// Если в нём нет элементов, то все элементы пуш-стека перегоняются в него.
         /// </summary>
         private readonly AssociativeStack<T> _popStack;
+
+        private readonly PropertyInfo _propertyOperation = typeof(AssociativeQueue<T>).GetProperty("Operation")!;
 
 
         #region Конструкторы
@@ -63,10 +66,10 @@ namespace CollectionLibrary.Associative
         public T GetResultAssociativeOperation()
         {
             if (Count == 0)
-                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
+                ExceptionWizard.ThrowEmptyCollection(this);
 
             if (Operation == null)
-                ExceptionWizard.ThrowNullOperationAssociativeCollection(this);
+                ExceptionWizard.ThrowNullPropertyCollection(this, _propertyOperation);
 
 
             bool isNotEmptyPushStack = _pushStack.TryGetResultAssociativeOperation(out T? valueOperationPushStack);
@@ -105,7 +108,7 @@ namespace CollectionLibrary.Associative
         public new T Dequeue()
         {
             if (Count == 0)
-                ExceptionWizard.ThrowEmptyAssociativeCollection(this);
+                ExceptionWizard.ThrowEmptyCollection(this);
 
             if (_popStack.Count == 0)
             {

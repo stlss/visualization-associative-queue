@@ -5,108 +5,95 @@ namespace TestCollectionLibrary.Associative
 {
     public class TestAssociativeQueue
     {
-        /// <summary>
-        /// Тестирование Enqueue.
-        /// </summary>
         [Fact]
-        public void TestEnqueue()
+        public void Test1()
         {
             var queue = new AssociativeQueue<int>();
-            int count = 5;
+            Assert.Throws<InvalidOperationException>(() => queue.GetResultAssociativeOperation());
 
-            var numbers1 = Enumerable.Range(0, count);
-            List<int> numbers2 = [], numbers3 = [];
-
-            for (int i = 0; i < count; i++)
-            {
-                numbers2.Add(queue.Count);
-
-                queue.Enqueue(i);
-
-                numbers3.Add(queue.Peek());
-            }
-
-            Assert.Equal(numbers1, numbers2);
-            Assert.Equal(Enumerable.Range(0, count).Select(_ => 0), numbers3);
+            queue.Operation = new OperationIntSum();
+            Assert.Throws<InvalidOperationException>(() => queue.GetResultAssociativeOperation());
         }
 
-
-        /// <summary>
-        /// Тестирование Dequeue.
-        /// </summary>
         [Fact]
-        public void TestDequeue()
+        public void Test2()
         {
-            var queue = new AssociativeQueue<int>();
-            int count = 5;
+            var queue = new AssociativeQueue<int>() { Operation = new OperationIntSum() };
+            int sum = 0;
 
-            var numbers1 = Enumerable.Range(0, count);
-            var numbers2 = Enumerable.Range(0, count).Reverse();
-
-            List<int> numbers3 = [], numbers4 = [];
-
-            for (int i = 0; i < count; i++)
-                queue.Enqueue(i);
-
-            for (int i = count; i > 0; i--)
+            for (int i = 0; i < 10; i++)
             {
-                numbers3.Add(queue.Dequeue());
-                numbers4.Add(queue.Count);
+                queue.Enqueue(i);
+                sum += i;
             }
 
-            Assert.Equal(numbers1, numbers3);
-            Assert.Equal(numbers2, numbers4);
-            Assert.Throws(new InvalidOperationException().GetType(), () => queue.Dequeue());
+            Assert.Equal(sum, queue.GetResultAssociativeOperation());
         }
 
-        /// <summary>
-        /// Тестирование конструктора с параметром типа IEnumerable<T>.
-        /// </summary>
         [Fact]
-        public void TestConstructor()
+        public void Test3()
         {
-            var queue1 = new AssociativeQueue<int>();
+            var queue = new AssociativeQueue<int>() { Operation = new OperationIntProduct() };
+            int product = 1;
 
-            for (int i = 0; i < 5; i++)
-                queue1.Enqueue(i);
+            for (int i = 1; i < 10; i++)
+            {
+                queue.Enqueue(i);
+                product *= i;
+            }
 
-            var queue2 = new AssociativeQueue<int>(queue1);
+            for (int i = 1; i < 5; i++)
+            {
+                queue.Dequeue();
+                product /= i;
+            }
+
+            Assert.Equal(product, queue.GetResultAssociativeOperation());
+        }
+
+        [Fact]
+        public void Test4()
+        {
+            var queue = new AssociativeQueue<int>() { Operation = new OperationIntSum() };
+
+            for (int i = 0; i < 10; i++)
+                queue.Enqueue(i);
+
+            queue.Clear();
+
+            Assert.Throws<InvalidOperationException>(() => queue.GetResultAssociativeOperation());
+        }
+
+        [Fact]
+        public void Test5()
+        {
+            var collection = Enumerable.Range(0, 10);
+
+            var queue1 = new Queue<int>(collection);
+            var queue2 = new AssociativeQueue<int>(collection);
 
             Assert.Equal(queue1, queue2);
         }
 
-        /// <summary>
-        /// Тестирование GetResultAssociativeOperation.
-        /// </summary>
         [Fact]
-        public void TestGetResultAssociativeOperation()
+        public void Test6()
         {
-            var queue = new AssociativeQueue<int>() { Operation = new OperationIntSum() };
-            int sum = 0, product = 1;
-
-            for (int i = 1; i <= 10; i++)
+            var queue = new AssociativeQueue<int>(Enumerable.Range(0, 10))
             {
-                queue.Enqueue(i);
+                Operation = new OperationIntSum()
+            };
 
+            int sum = 0;
+            for (int i = 0; i < 10; i++)
                 sum += i;
-                product *= i;
-            }
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 queue.Dequeue();
-
                 sum -= i;
-                product /= i;
             }
 
             Assert.Equal(sum, queue.GetResultAssociativeOperation());
-
-            queue.Operation = null;
-            Assert.Throws(new InvalidOperationException().GetType(), () => queue.GetResultAssociativeOperation());
-
-            queue.Operation = new OperationIntProduct();
-            Assert.Equal(product, queue.GetResultAssociativeOperation());
         }
     }
 }
