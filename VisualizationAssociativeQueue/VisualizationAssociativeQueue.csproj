@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <None Remove="Resources\Icons\Icon.ico" />
+    <None Remove="Resources\Images\Arrow.png" />
+    <None Remove="Resources\Images\StandStack.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +25,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\Icons\Icon.ico" />
+    <Resource Include="Resources\Images\Arrow.png" />
+    <Resource Include="Resources\Images\StandStack.png" />
   </ItemGroup>
 
   <ItemGroup>

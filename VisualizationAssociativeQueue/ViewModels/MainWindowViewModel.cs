@@ -2,6 +2,7 @@
 using CollectionLibrary.Associative;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using VisualizationAssociativeQueue.Models;
 using VisualizationAssociativeQueue.Models.Associativity;
 using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
@@ -59,6 +60,15 @@ namespace VisualizationAssociativeQueue.ViewModels
         public ObservableCollectionsManager ObservableCollectionsManager { get; private set; }
         #endregion
 
+        #region Видимость стрелочки в отображении содержимого очереди
+        private Visibility _arrowVisibility;
+        public Visibility ArrowVisibility
+        {
+            get => _arrowVisibility;
+            set => SetProperty(ref _arrowVisibility, value);
+        }
+        #endregion
+
         #endregion
 
         #region Команды
@@ -83,6 +93,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             if (_associativeQueue.Count != 1)
                 IndicatorFirst.SolidColorBrush = Brushes.Black;
+            #endregion
+
+            #region Обновление видимости стрелочки в отображении содержимого очереди
+            ArrowVisibility = Visibility.Visible;
             #endregion
         }
 
@@ -135,6 +149,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             IndicatorCount.Value = 0;
             #endregion
+
+            #region Обновление видимости стрелочки в отображении содержимого очереди
+            ArrowVisibility = Visibility.Collapsed;
+            #endregion
         }
         #endregion
 
@@ -167,6 +185,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             #region Менеджер наблюдаемых коллекций
             ObservableCollectionsManager = new(_selectedOperation);
+            #endregion
+
+            #region Видимость стрелочки в отображении содержимого очереди
+            _arrowVisibility = Visibility.Collapsed;
             #endregion
 
             #region Индикаторы

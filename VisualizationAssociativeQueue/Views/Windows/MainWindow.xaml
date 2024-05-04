@@ -99,19 +99,33 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
-
+                
+                <!--Название области-->
                 <Viewbox Grid.Row="0">
                     <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="Queue"/>
                 </Viewbox>
-
-                <ScrollViewer Grid.Row="1" Style="{StaticResource ScrollViewerVisualizationStyle}">
-                    <Viewbox>
-                        <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.Queue}"
-                                      ItemsPanel="{StaticResource ItemsPanelVisualizationTemplate}"
-                                      ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
-                    </Viewbox>
-                </ScrollViewer>
                 
+                <!--Отображение области-->
+                <Viewbox Grid.Row="1">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                        <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
+                                    HorizontalAlignment="Center" FlowDirection="RightToLeft">
+                            
+                            <!--Первая стрелочка-->
+                            <Image Style="{StaticResource ImageVisualizationStyle}"/>
+
+                            <!--Содержимое очереди-->
+                            <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.Queue}"
+                                          ItemsPanel="{StaticResource ItemsPanelVisualizationTemplate}"
+                                          ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                            <!--Вторая стрелочка-->
+                            <Image Style="{StaticResource ImageVisualizationStyle}"
+                                   Visibility="{Binding ArrowVisibility}"/>
+                            
+                        </StackPanel>
+                    </ScrollViewer>
+                </Viewbox>
             </Grid>
 
             <!--Вычисление ассоциативной операции-->
