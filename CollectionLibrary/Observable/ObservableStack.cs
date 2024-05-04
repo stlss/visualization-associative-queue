@@ -37,7 +37,7 @@ namespace CollectionLibrary.Observable
                 ExceptionWizard.ThrowEmptyCollection(this);
 
             var item = base.Pop();
-            OnCollectionChanged(new(NotifyCollectionChangedAction.Remove, item));
+            OnCollectionChanged(new(NotifyCollectionChangedAction.Remove, item, Count));
 
             return item;
         }
