@@ -222,44 +222,46 @@
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Center" FlowDirection="RightToLeft">
+                            
+                            <!--Результат ассоциативной операции-->
+                            <Border Style="{StaticResource BorderVisualizationStyle}"
+                                    DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}">
 
-                            <Border BorderBrush="Black" BorderThickness="2"
-                                    Width="55" Height="55" Margin="2.5">
-
-                                <Grid Background="{Binding ObservableCollectionsManager.ResultOperationViewModel.SolidColorBrush}">
-                                    <Label Content="{Binding ObservableCollectionsManager.ResultOperationViewModel.DisplayValue}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                                    <Label Content="{Binding ObservableCollectionsManager.ResultOperationViewModel.DisplayStatus}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                <Grid Background="{Binding SolidColorBrush}">
+                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
+                                           Content="{Binding DisplayStatus}"/>
+        
+                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
+                                           Content="{Binding DisplayValue}"/>
                                 </Grid>
                             </Border>
 
-                            <!--Первая стрелочка-->
+                            <!--Стрелочка-->
                             <Image Style="{StaticResource ImageArrowVisualizationStyle}"/>
 
+                            <!--Верхушка поп-ассоциативного-стека-->
+                            <Border Style="{StaticResource BorderVisualizationStyle}"
+                                    DataContext="{Binding ObservableCollectionsManager.PopAssociativeStackPeekViewModel}">
 
-                            <Border BorderBrush="Black" BorderThickness="2"
-                                    Width="55" Height="55" Margin="2.5">
+                                <Grid Background="{Binding SolidColorBrush}">
+                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
+                                           Content="{Binding DisplayStatus}"/>
 
-                                <Grid Background="{Binding ObservableCollectionsManager.PopStackPeekViewModel.SolidColorBrush}">
-                                    <Label Content="{Binding ObservableCollectionsManager.PopStackPeekViewModel.DisplayValue}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                                    <Label Content="{Binding ObservableCollectionsManager.PopStackPeekViewModel.DisplayStatus}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
+                                           Content="{Binding DisplayValue}"/>
                                 </Grid>
                             </Border>
-                            
-                            <Border BorderBrush="Black" BorderThickness="2"
-                                    Width="55" Height="55" Margin="2.5">
 
-                                <Grid Background="{Binding ObservableCollectionsManager.PushStackPeekViewModel.SolidColorBrush}">
-                                    <Label Content="{Binding ObservableCollectionsManager.PushStackPeekViewModel.DisplayValue}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <!--Верхушка пуш-ассоциативного-стека-->
+                            <Border Style="{StaticResource BorderVisualizationStyle}"
+                                    DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}">
 
-                                    <Label Content="{Binding ObservableCollectionsManager.PushStackPeekViewModel.DisplayStatus}" Padding="0"
-                                           HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                <Grid Background="{Binding SolidColorBrush}">
+                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
+                                           Content="{Binding DisplayStatus}"/>
+                                    
+                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
+                                           Content="{Binding DisplayValue}"/>
                                 </Grid>
                             </Border>
 
