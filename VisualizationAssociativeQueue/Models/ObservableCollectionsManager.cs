@@ -5,6 +5,9 @@ using VisualizationAssociativeQueue.ViewModels;
 
 namespace VisualizationAssociativeQueue.Models
 {
+    /// <summary>
+    /// Менеджер наблюдаемых коллекций, содержимое которых отображается пользователю.
+    /// </summary>
     internal class ObservableCollectionsManager
     {
         #region Поля
@@ -37,10 +40,10 @@ namespace VisualizationAssociativeQueue.Models
             }
         }
 
-        public StackPeekViewModel<int?> PushStackPeekViewModel { get; private set; } = new();
-        public StackPeekViewModel<int?> PopStackPeekViewModel { get; private set; } = new();
+        public StackPeekViewModel<int?> PushAssociativeStackPeekViewModel { get; private set; } = new();
+        public StackPeekViewModel<int?> PopAssociativeStackPeekViewModel { get; private set; } = new();
 
-        public StackPeekViewModel<int?> ResultOperationViewModel { get; private set; } = new();
+        public StackPeekViewModel<int?> ResultAssociativeOperationViewModel { get; private set; } = new();
         #endregion
 
 
@@ -52,6 +55,8 @@ namespace VisualizationAssociativeQueue.Models
 
 
         #region Методы
+
+        #region Публичные методы
         public void Enqueue(int number)
         {
             UpdateCollections();
@@ -63,7 +68,10 @@ namespace VisualizationAssociativeQueue.Models
             if (PushAssociativeStack.Count == 0)
                 PushAssociativeStack.Push(item);
             else
-                PushAssociativeStack.Push(new(Operation.Func(item.Value, PushAssociativeStack.Peek().Value)) { Status = ElementStatus.New });
+            {
+                var associativeItem = new ElementViewModel<int>(Operation.Func(item.Value, PushAssociativeStack.Peek().Value));
+                PushAssociativeStack.Push(associativeItem);
+            }
 
             Queue.Enqueue(item);
             _lastItem = item;
@@ -87,7 +95,14 @@ namespace VisualizationAssociativeQueue.Models
                     if (PopAssociativeStack.Count == 0)
                         PopAssociativeStack.Push(item);
                     else
-                        PopAssociativeStack.Push(new(Operation.Func(item.Value, PopAssociativeStack.Peek().Value)));
+                    {
+                        var associativeItem = new ElementViewModel<int>(Operation.Func(item.Value, PopAssociativeStack.Peek().Value)) 
+                        { 
+                            Status = ElementStatus.Old 
+                        };
+
+                        PopAssociativeStack.Push(associativeItem);
+                    }
                 }
             }
 
@@ -112,8 +127,13 @@ namespace VisualizationAssociativeQueue.Models
         {
 
         }
+        #endregion
 
 
+        #region Приватные методы
+        /// <summary>
+        /// Во всех коллекциях меняет элементы со статусом New на Old и удаляет все элементы со статусом Deleted.
+        /// </summary>
         private void UpdateCollections()
         {
             foreach (var stack in _stacks)
@@ -140,6 +160,9 @@ namespace VisualizationAssociativeQueue.Models
                 _lastItem.Status = ElementStatus.Old;
         }
 
+        /// <summary>
+        /// Пересчитывает элементы associativeStack в соответствии stack и Operation.
+        /// </summary>
         private void UpdateAssociativeStack(ObservableStack<ElementViewModel<int>> stack, ObservableStack<ElementViewModel<int>> associativeStack)
         {
             var list = stack.ToList();
@@ -149,7 +172,21 @@ namespace VisualizationAssociativeQueue.Models
                 associativeList[i].Value = Operation.Func(associativeList[i + 1].Value, list[i].Value); 
         }
 
-        private int? GetPeek(ObservableStack<ElementViewModel<int>> stack)
+        /// <summary>
+        /// Обновляет значения у PushAssociativeStackPeekViewModel, PopAssociativeStackPeekViewModel и ResultAssociativeOperationViewModel.
+        /// </summary>
+        private void UpdateStackPeekViewModels()
+        {
+            PushAssociativeStackPeekViewModel.Value = GetActulStackPeek(PushAssociativeStack);
+            PopAssociativeStackPeekViewModel.Value = GetActulStackPeek(PopAssociativeStack);
+
+            UpdateResultAssociativeOperationViewModel();
+        }
+
+        /// <summary>
+        /// Возвращает значение актуального верхнего элемента стека. Актуальный элемент не имеет статус Deleted. 
+        /// </summary>
+        private int? GetActulStackPeek(ObservableStack<ElementViewModel<int>> stack)
         {
             if (stack.Count == 0 || (stack.Count == 1 && stack.Peek().Status == ElementStatus.Deleted))
                 return null;
@@ -166,36 +203,33 @@ namespace VisualizationAssociativeQueue.Models
             return stack.Peek().Value;
         }
 
-        private void UpdateResultOperationViewModel()
+        /// <summary>
+        /// Обновляет значение ResultAssociativeOperationViewModel в соответствии значений PushAssociativeStackPeekViewModel, PopAssociativeStackPeekViewModel и Operation.
+        /// </summary>
+        private void UpdateResultAssociativeOperationViewModel()
         {
-            if (PushStackPeekViewModel.Value == null && PopStackPeekViewModel.Value == null)
+            if (PushAssociativeStackPeekViewModel.Value == null && PopAssociativeStackPeekViewModel.Value == null)
             {
-                ResultOperationViewModel.Value = null;
+                ResultAssociativeOperationViewModel.Value = null;
                 return;
             }
 
-            if (PushStackPeekViewModel.Value == null)
+            if (PushAssociativeStackPeekViewModel.Value == null)
             {
-                ResultOperationViewModel.Value = PopStackPeekViewModel.Value;
+                ResultAssociativeOperationViewModel.Value = PopAssociativeStackPeekViewModel.Value;
                 return;
             }
 
-            if (PopStackPeekViewModel.Value == null)
+            if (PopAssociativeStackPeekViewModel.Value == null)
             {
-                ResultOperationViewModel.Value = PushStackPeekViewModel.Value;
+                ResultAssociativeOperationViewModel.Value = PushAssociativeStackPeekViewModel.Value;
                 return;
             }
 
-            ResultOperationViewModel.Value = Operation.Func((int)PushStackPeekViewModel.Value, (int)PopStackPeekViewModel.Value);
+            ResultAssociativeOperationViewModel.Value = Operation.Func((int)PushAssociativeStackPeekViewModel.Value, (int)PopAssociativeStackPeekViewModel.Value);
         }
+        #endregion
 
-        private void UpdateStackPeekViewModels()
-        {
-            PushStackPeekViewModel.Value = GetPeek(PushAssociativeStack);
-            PopStackPeekViewModel.Value = GetPeek(PopAssociativeStack);
-
-            UpdateResultOperationViewModel();
-        }
         #endregion
     }
 }

@@ -5,6 +5,9 @@ using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
+    /// <summary>
+    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящиеся в правом нижнем углу области визуализации.
+    /// </summary>
     internal class StackPeekViewModel<T> : ObservableObject
     {
         #region Значение
@@ -30,10 +33,10 @@ namespace VisualizationAssociativeQueue.ViewModels
         }
         #endregion
 
-
         #region Отображаемое значение
         public string DisplayValue { get => Value?.ToString() ?? "None"; }
         #endregion
+
 
         #region Статус
         private StackPeekStatus _status = StackPeekStatus.Missing;

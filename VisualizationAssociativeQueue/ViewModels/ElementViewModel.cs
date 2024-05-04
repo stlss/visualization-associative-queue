@@ -5,6 +5,9 @@ using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
+    /// <summary>
+    /// Вьюмоделей элемента коллекции, который на экране выглядит как квадрат со значением элемента и его статусом.
+    /// </summary>
     internal class ElementViewModel<T>(T value) : ObservableObject
     {
         #region Значение
@@ -18,7 +21,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
 
         #region Статус
-        private ElementStatus _status = ElementStatus.Old;
+        private ElementStatus _status = ElementStatus.New;
         public ElementStatus Status 
         {
             get => _status;

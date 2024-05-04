@@ -9,6 +9,9 @@ using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
 namespace VisualizationAssociativeQueue.ViewModels
 {
+    /// <summary>
+    /// Вьюмодель главного окна.
+    /// </summary>
     internal class MainWindowViewModel : ObservableObject
     {
         #region Поля

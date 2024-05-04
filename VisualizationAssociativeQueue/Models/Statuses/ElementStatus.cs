@@ -2,6 +2,8 @@
 {
     internal enum ElementStatus
     {
-        New, Old, Deleted
+        New,        // Недавно добавленный элемент.
+        Old,        // Давно добавленный элемент.
+        Deleted     // Недавно удалённый элемент.
     }
 }
