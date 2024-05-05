@@ -24,27 +24,47 @@
     <!--Базовый стиль изображений-->
     <Style x:Key="BaseImageVisualizationStyle" TargetType="Image">
         <Setter Property="Height" Value="55"/>
-        <Setter Property="Margin" Value="0 2.5 2.5 2.5"/>
+        <Setter Property="Margin" Value="2.5 7.5"/>
     </Style>
     
     <!--Стиль изображений, содержащих подставку под стек-->
     <Style x:Key="ImageStandStackVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
         <Setter Property="Source" Value="pack://application:,,,/Resources/Images/StandStack.png"/>
+        <Setter Property="Margin" Value="0 7.5 2.5 7.5"/>
     </Style>
 
     <!--Стиль изображений, содержащих стрелочку-->
     <Style x:Key="ImageArrowVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
         <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Arrow.png"/>
     </Style>
-    
-    
+
+    <!--Стиль изображений, содержащих скобку-->
+    <Style x:Key="ImageBracketVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Bracket.png"/>
+    </Style>
+
+    <!--Стиль изображений, содержащих запятую-->
+    <Style x:Key="ImageCommaVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Comma.png"/>
+        <Setter Property="Height" Value="15"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Margin" Value="0 7.5 2.5 1.25"/>
+    </Style>
+
+    <!--Стиль изображений, содержащих знак равно-->
+    <Style x:Key="ImageEqualVisualizationStyle" TargetType="Image" BasedOn="{StaticResource BaseImageVisualizationStyle}">
+        <Setter Property="Source" Value="pack://application:,,,/Resources/Images/Equal.png"/>
+        <Setter Property="Margin" Value="7.5"/>
+    </Style>
+
+
     <!--Стиль рамок, входящих в отображение элементов коллекий-->
     <Style x:Key="BorderVisualizationStyle" TargetType="Border">
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="2.5"/>
         <Setter Property="Width" Value="55"/>
         <Setter Property="Height" Value="55"/>
-        <Setter Property="Margin" Value="2.5"/>
+        <Setter Property="Margin" Value="2.5 7.5"/>
     </Style>
     
     <!--Стиль лейбов, содержащих статус элемента коллекции-->
@@ -59,6 +79,13 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="0"/>
+    </Style>
+
+
+    <!--Стиль вьюбоксов, содержащих лейбы, содержащих название ассоциативной операции-->
+    <Style x:Key="ViewBoxNameOperationElementVisualizationStyle" TargetType="Viewbox">
+        <Setter Property="Height" Value="55"/>
+        <Setter Property="Margin" Value="2.5 7.5"/>
     </Style>
 
 

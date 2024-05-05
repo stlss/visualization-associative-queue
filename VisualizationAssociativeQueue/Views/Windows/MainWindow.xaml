@@ -178,7 +178,7 @@
                 
                 <!--Название области-->
                 <Viewbox Grid.Row="0">
-                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="Queue"/>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="SimpleQueue"/>
                 </Viewbox>
                 
                 <!--Отображение содержимого области-->
@@ -213,31 +213,39 @@
                 
                 <!--Название области-->
                 <Viewbox Grid.Row="0">
-                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Get{0}"
-                           Content="{Binding SelectedOperation.Name}"/>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}"
+                           Content="GetResultAssociativeOperation"/>
                 </Viewbox>
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
-                                    HorizontalAlignment="Center" FlowDirection="RightToLeft">
+                                    HorizontalAlignment="Center">
                             
-                            <!--Результат ассоциативной операции-->
+                            <!--Название операции-->
+                            <Viewbox Style="{StaticResource ViewBoxNameOperationElementVisualizationStyle}">
+                                <Label Content="{Binding SelectedOperation.Name}" Padding="0"/>
+                            </Viewbox>
+
+                            <!--Открывающая скобка-->
+                            <Image Style="{StaticResource ImageBracketVisualizationStyle}"/>
+
+                            <!--Верхушка пуш-ассоциативного-стека-->
                             <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}">
+                                    DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}">
 
                                 <Grid Background="{Binding SolidColorBrush}">
                                     <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
                                            Content="{Binding DisplayStatus}"/>
-        
+
                                     <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
                                            Content="{Binding DisplayValue}"/>
                                 </Grid>
                             </Border>
 
-                            <!--Стрелочка-->
-                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"/>
+                            <!--Открывающая скобка-->
+                            <Image Style="{StaticResource ImageCommaVisualizationStyle}"/>
 
                             <!--Верхушка поп-ассоциативного-стека-->
                             <Border Style="{StaticResource BorderVisualizationStyle}"
@@ -252,14 +260,20 @@
                                 </Grid>
                             </Border>
 
-                            <!--Верхушка пуш-ассоциативного-стека-->
+                            <!--Закрывающая скобка-->
+                            <Image Style="{StaticResource ImageBracketVisualizationStyle}" FlowDirection="RightToLeft"/>
+
+                            <!--Знак равно-->
+                            <Image Style="{StaticResource ImageEqualVisualizationStyle}"/>
+
+                            <!--Результат ассоциативной операции-->
                             <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}">
+                                    DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}">
 
                                 <Grid Background="{Binding SolidColorBrush}">
                                     <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
                                            Content="{Binding DisplayStatus}"/>
-                                    
+
                                     <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
                                            Content="{Binding DisplayValue}"/>
                                 </Grid>
