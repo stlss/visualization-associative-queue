@@ -3,11 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
         mc:Ignorable="d"
         Title="VisualizationAssociativeQueue" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="800"
-        Icon="pack://application:,,,/Resources/Icons/Icon.ico">
+        Icon="pack://application:,,,/Resources/Icons/Icon.ico"
+        Name="window">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -21,7 +23,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -55,7 +57,9 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPushStack">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
 
@@ -86,7 +90,9 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPopStack">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
 
@@ -119,7 +125,9 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPushAssociativeStack">
+
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
 
@@ -151,7 +159,9 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPopAssociativeStack">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
 
@@ -183,7 +193,9 @@
                 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerSimpleQueue">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Center" FlowDirection="RightToLeft">
                             
@@ -295,43 +307,69 @@
                     <!--Основные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка добавления элемента в очередь-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
                                     Content="Enqueue" ToolTip="Добавить элемент в конец очереди"
                                     Command="{Binding EnqueueCommand}"
-                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
-                            
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}">
+
+                                <!--При клике прокручиваем скроллы с пуш-стеками и очередью влево-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushAssociativeStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToLeftEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+                            </Button>
+
+                            <!--Текстбок для ввода элемента-->
                             <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"
                                      ToolTip="Поле для ввода добавляемого элемента"/>
                         </StackPanel>
-
+                        
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка удаления элемента из очереди-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
                                     Content="Dequeue" ToolTip="Удалить элемент из начала очереди"
                                     Command="{Binding DequeueCommand}"
-                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}">
+
+                                <!--При клике прокручиваем скроллы с поп-стеками и очередью вправо-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopAssociativeStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToRightEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
 
                     <!--Дополнительные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Комбобокс с ассоциативным операциями-->
                             <ComboBox Style="{StaticResource ComboBoxManagementStyle}" ToolTip="Ассоциативная операция"
                                       ItemTemplate="{StaticResource OperationManagementDataTemplate}"
                                       ItemsSource="{Binding Operations}"
                                       SelectedItem="{Binding SelectedOperation}"/>
 
-
+                            <!--Кнопка очистки очереди-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
                                     Content="Clear" ToolTip="Удалить все элементы из очереди"
                                     Command="{Binding ClearCommand}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка генерации очереди по сиду-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
                                     Content="Generate" ToolTip="Сгенерировать очередь по ключу"
                                     Command="{Binding GenerateCommand}"
                                     CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}"/>
                             
+                            <!--Текстбокс для ввода сида-->
                             <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"
                                      ToolTip="Поле для ввода ключа генерации очереди"/>
                         </StackPanel>
@@ -339,6 +377,7 @@
 
                     <!--Основные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <!--Ассоциативная операция-->
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorOperation.Name}"
@@ -348,7 +387,8 @@
                                    Content="{Binding IndicatorOperation.DisplayValue}"
                                    Foreground="{Binding IndicatorOperation.SolidColorBrush}"/>
                         </StackPanel>
-
+                        
+                        <!--Число элементов в очереди-->
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorCount.Name}" 
@@ -362,6 +402,7 @@
 
                     <!--Дополнительные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
+                        <!--Первый элемент в очереди-->
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorFirst.Name}"
@@ -372,6 +413,7 @@
                                    Foreground="{Binding IndicatorFirst.SolidColorBrush}"/>
                         </StackPanel>
 
+                        <!--Последний элемент в очереди-->
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
                             <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
                                    Content="{Binding IndicatorLast.Name}"
