@@ -58,8 +58,9 @@
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
-                                  x:Name="ScrollViewerPushStack">
-                        
+                                  x:Name="ScrollViewerPushStack"
+                                  ScrollChanged="SynchronizeLeftScrollViewers">
+
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
 
@@ -91,7 +92,8 @@
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
-                                  x:Name="ScrollViewerPopStack">
+                                  x:Name="ScrollViewerPopStack"
+                                  ScrollChanged="SynchronizeRightScrollViewers">
                         
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
@@ -126,7 +128,8 @@
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
-                                  x:Name="ScrollViewerPushAssociativeStack">
+                                  x:Name="ScrollViewerPushAssociativeStack"
+                                  ScrollChanged="SynchronizeLeftScrollViewers">
 
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
@@ -160,7 +163,8 @@
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
-                                  x:Name="ScrollViewerPopAssociativeStack">
+                                  x:Name="ScrollViewerPopAssociativeStack"
+                                  ScrollChanged="SynchronizeRightScrollViewers">
                         
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
@@ -311,7 +315,8 @@
                             <Button Style="{StaticResource ButtonManagementStyle}" 
                                     Content="Enqueue" ToolTip="Добавить элемент в конец очереди"
                                     Command="{Binding EnqueueCommand}"
-                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}">
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"
+                                    CommandTarget="{Binding ElementName=ScrollViewerSimpleQueue}">
 
                                 <!--При клике прокручиваем скроллы с пуш-стеками и очередью влево-->
                                 <bh:Interaction.Triggers>
