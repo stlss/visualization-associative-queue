@@ -17,6 +17,7 @@ namespace VisualizationAssociativeQueue.ViewModels
     {
         #region Поля
         private readonly AssociativeQueue<int> _associativeQueue;
+        private int? _lastElement;
         #endregion
 
         #region Свойства
@@ -106,22 +107,14 @@ namespace VisualizationAssociativeQueue.ViewModels
         private void ExecuteEnqueueCommand(string? strNumber)
         {
             var number = int.Parse(strNumber!);
+            _lastElement = number;
 
             _associativeQueue.Enqueue(number);
             ObservableCollectionsManager.Enqueue(number);
 
             DequeueCommand.NotifyCanExecuteChanged();
 
-            #region Обновление индикаторов
-            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-            IndicatorCount.Value = _associativeQueue.Count;
-            IndicatorFirst.Value = _associativeQueue.Peek();
-            IndicatorLast.Value = number;
-
-            if (_associativeQueue.Count != 1)
-                IndicatorFirst.SolidColorBrush = Brushes.Black;
-            #endregion
-
+            UpdateIndicators();
             UpdateArrowsVisibility();
         }
 
@@ -169,14 +162,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             _associativeQueue.Clear();
             ObservableCollectionsManager.Clear();
 
-            #region Обновление индикаторы
-            IndicatorOperation.Value = null;
-            IndicatorFirst.Value = null;
-            IndicatorLast.Value = null;
-
-            IndicatorCount.Value = 0;
-            #endregion
-
+            UpdateIndicators();
             UpdateArrowsVisibility();
         }
         #endregion
@@ -186,6 +172,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         private void ExecuteGenerateCommand(string? strNumber)
         {
+            UpdateIndicators();
             UpdateArrowsVisibility();
         }
 
@@ -210,12 +197,6 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             #region Менеджер наблюдаемых коллекций
             ObservableCollectionsManager = new(_selectedOperation);
-            #endregion
-
-            #region Видимость стрелок
-            _arrowQueueVisibility = Visibility.Collapsed;
-            _arrowPushStacksVisibility = Visibility.Collapsed;
-            _arrowPopStacksVisibility = Visibility.Collapsed;
             #endregion
 
             #region Индикаторы
@@ -263,6 +244,12 @@ namespace VisualizationAssociativeQueue.ViewModels
             };
             #endregion
 
+            #region Видимость стрелок
+            _arrowQueueVisibility = Visibility.Collapsed;
+            _arrowPushStacksVisibility = Visibility.Collapsed;
+            _arrowPopStacksVisibility = Visibility.Collapsed;
+            #endregion
+
             #region Команды
             EnqueueCommand = new(ExecuteEnqueueCommand, CanExecuteEnqueueCommand);
             DequeueCommand = new(ExecuteDequeueCommand, CanExecuteDequeueCommand);
@@ -273,12 +260,78 @@ namespace VisualizationAssociativeQueue.ViewModels
 
 
         #region Методы
+
+        #region Обновление индикаторов
+        private void UpdateIndicators([CallerMemberName] string? callerMemberName = null)
+        {
+            switch (callerMemberName)
+            {
+                case nameof(ExecuteEnqueueCommand):
+                    UpdateIndicatorsAfterEnqueue();
+                    break;
+
+                case nameof(ExecuteDequeueCommand):
+                    UpdateIndicatorsAfterDequeue();
+                    break;
+
+                case nameof(ExecuteClearCommand):
+                    UpdateIndicatorsAfterClear();
+                    break;
+
+                case nameof(ExecuteGenerateCommand):
+                    break;
+            }
+        }
+
+
+        private void UpdateIndicatorsAfterEnqueue()
+        {
+            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorCount.Value = _associativeQueue.Count;
+            IndicatorFirst.Value = _associativeQueue.Peek();
+            IndicatorLast.Value = _lastElement;
+
+            if (_associativeQueue.Count != 1)
+                IndicatorFirst.SolidColorBrush = Brushes.Black;
+        }
+
+        private void UpdateIndicatorsAfterDequeue()
+        {
+            if (_associativeQueue.Count == 0)
+            {
+                UpdateIndicatorsAfterClear();
+                return;
+            }
+
+            IndicatorCount.Value = _associativeQueue.Count;
+            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorFirst.Value = _associativeQueue.Peek();
+            IndicatorLast.SolidColorBrush = Brushes.Black;
+        }
+
+        private void UpdateIndicatorsAfterClear()
+        {
+            IndicatorOperation.Value = null;
+            IndicatorFirst.Value = null;
+            IndicatorLast.Value = null;
+            IndicatorCount.Value = 0;
+        }
+
+        private void UpdateIndicatorsAfterGenerate()
+        {
+
+        }
+        #endregion
+
+        #region Обновление видимостей стрелок
         private void UpdateArrowsVisibility()
         {
             ArrowQueueVisibility = ObservableCollectionsManager.Queue.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             ArrowPushStacksVisibility = ObservableCollectionsManager.PushStack.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
             ArrowPopStacksVisibility = ObservableCollectionsManager.PopStack.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
+        #endregion
+
         #endregion
     }
 }
