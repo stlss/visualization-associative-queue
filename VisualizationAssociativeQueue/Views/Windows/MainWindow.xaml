@@ -72,6 +72,10 @@
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPushStacksVisibility}"/>
+                            
                         </StackPanel>
                     </ScrollViewer>
                 </Viewbox>
@@ -105,6 +109,10 @@
                             <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PopStack}"
                                           ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPopStacksVisibility}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -142,6 +150,10 @@
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPushStacksVisibility}"/>
+
                         </StackPanel>
                     </ScrollViewer>
                 </Viewbox>
@@ -177,6 +189,10 @@
                                           ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPopStacksVisibility}"/>
+
                         </StackPanel>
                     </ScrollViewer>
                 </Viewbox>
@@ -203,7 +219,7 @@
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Center" FlowDirection="RightToLeft">
                             
-                            <!--Первая стрелочка-->
+                            <!--Постоянная стрелка-->
                             <Image Style="{StaticResource ImageArrowVisualizationStyle}"/>
 
                             <!--Содержимое очереди-->
@@ -211,9 +227,9 @@
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
-                            <!--Вторая стрелочка-->
+                            <!--Стрелка-->
                             <Image Style="{StaticResource ImageArrowVisualizationStyle}"
-                                   Visibility="{Binding ArrowVisibility}"/>
+                                   Visibility="{Binding ArrowQueueVisibility}"/>
                             
                         </StackPanel>
                     </ScrollViewer>

@@ -2,6 +2,7 @@
 using CollectionLibrary.Associative;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using VisualizationAssociativeQueue.Models;
 using VisualizationAssociativeQueue.Models.Associativity;
@@ -64,13 +65,35 @@ namespace VisualizationAssociativeQueue.ViewModels
         public ObservableCollectionsManager ObservableCollectionsManager { get; private set; }
         #endregion
 
-        #region Видимость стрелочки в отображении содержимого очереди
-        private Visibility _arrowVisibility;
-        public Visibility ArrowVisibility
+        #region Видимость стрелок
+
+        #region Видимость стрелки очереди
+        private Visibility _arrowQueueVisibility;
+        public Visibility ArrowQueueVisibility
         {
-            get => _arrowVisibility;
-            set => SetProperty(ref _arrowVisibility, value);
+            get => _arrowQueueVisibility;
+            set => SetProperty(ref _arrowQueueVisibility, value);
         }
+        #endregion
+
+        #region Видимость стрелок пуш-стеков
+        private Visibility _arrowPushStacksVisibility;
+        public Visibility ArrowPushStacksVisibility
+        {
+            get => _arrowPushStacksVisibility;
+            set => SetProperty(ref _arrowPushStacksVisibility, value);
+        }
+        #endregion
+
+        #region Видимость стрелок поп-стеков
+        private Visibility _arrowPopStacksVisibility;
+        public Visibility ArrowPopStacksVisibility
+        {
+            get => _arrowPopStacksVisibility;
+            set => SetProperty(ref _arrowPopStacksVisibility, value);
+        }
+        #endregion
+
         #endregion
 
         #endregion
@@ -99,9 +122,7 @@ namespace VisualizationAssociativeQueue.ViewModels
                 IndicatorFirst.SolidColorBrush = Brushes.Black;
             #endregion
 
-            #region Обновление видимости стрелочки в отображении содержимого очереди
-            ArrowVisibility = Visibility.Visible;
-            #endregion
+            UpdateArrowsVisibility();
         }
 
         private bool CanExecuteEnqueueCommand(string? strNumber) => int.TryParse(strNumber, out _);
@@ -133,6 +154,8 @@ namespace VisualizationAssociativeQueue.ViewModels
                 IndicatorLast.SolidColorBrush = Brushes.Black;
             }
             #endregion
+
+            UpdateArrowsVisibility();
         }
 
         private bool CanExecuteDequeueCommand() => _associativeQueue.Count != 0;
@@ -146,7 +169,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             _associativeQueue.Clear();
             ObservableCollectionsManager.Clear();
 
-            #region Обновить индикаторы
+            #region Обновление индикаторы
             IndicatorOperation.Value = null;
             IndicatorFirst.Value = null;
             IndicatorLast.Value = null;
@@ -154,9 +177,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             IndicatorCount.Value = 0;
             #endregion
 
-            #region Обновление видимости стрелочки в отображении содержимого очереди
-            ArrowVisibility = Visibility.Collapsed;
-            #endregion
+            UpdateArrowsVisibility();
         }
         #endregion
 
@@ -165,7 +186,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         private void ExecuteGenerateCommand(string? strNumber)
         {
-
+            UpdateArrowsVisibility();
         }
 
         private bool CanExecuteGenerateCommand(string? strNumber) => int.TryParse(strNumber, out _);
@@ -191,8 +212,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             ObservableCollectionsManager = new(_selectedOperation);
             #endregion
 
-            #region Видимость стрелочки в отображении содержимого очереди
-            _arrowVisibility = Visibility.Collapsed;
+            #region Видимость стрелок
+            _arrowQueueVisibility = Visibility.Collapsed;
+            _arrowPushStacksVisibility = Visibility.Collapsed;
+            _arrowPopStacksVisibility = Visibility.Collapsed;
             #endregion
 
             #region Индикаторы
@@ -247,5 +270,15 @@ namespace VisualizationAssociativeQueue.ViewModels
             GenerateCommand = new(ExecuteGenerateCommand, CanExecuteGenerateCommand);
             #endregion
         }
+
+
+        #region Методы
+        private void UpdateArrowsVisibility()
+        {
+            ArrowQueueVisibility = ObservableCollectionsManager.Queue.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            ArrowPushStacksVisibility = ObservableCollectionsManager.PushStack.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+            ArrowPopStacksVisibility = ObservableCollectionsManager.PopStack.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+        #endregion
     }
 }
