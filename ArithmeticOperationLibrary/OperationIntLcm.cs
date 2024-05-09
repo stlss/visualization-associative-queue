@@ -6,7 +6,7 @@ namespace ArithmeticOperationLibrary
     {
         public string Name => "Lcm";
 
-        public string Description => "Наименьшее общее кратное элементов в очереди";
+        public string Description => "Наименьшее общее кратное";
 
         public Func<int, int, int> Func => GetLcm;
 

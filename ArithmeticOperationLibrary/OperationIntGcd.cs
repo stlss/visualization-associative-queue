@@ -6,7 +6,7 @@ namespace ArithmeticOperationLibrary
     {
         public string Name => "Gcd";
 
-        public string Description => "Наибольший общий делитель элементов в очереди";
+        public string Description => "Наибольший общий делитель";
 
         public Func<int, int, int> Func => GetGcd;
 

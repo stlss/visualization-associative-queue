@@ -47,10 +47,20 @@
         
     </Style>
 
+    <!--Стиль лейбов, представляющие подсказки-->
+    <Style x:Key="ToolTripLabelManagementStyle" TargetType="Label">
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
 
     <!--Шаблон данных ассоциативных операций, размещённых в комбобоксе-->
     <DataTemplate x:Key="OperationManagementDataTemplate">
-        <TextBlock Text="{Binding Name}"
-                   ToolTip="{Binding Description}"/>
+        <TextBlock Text="{Binding Name}">
+            <TextBlock.ToolTip>
+                <Label Style="{StaticResource ToolTripLabelManagementStyle}" 
+                       Content="{Binding Description}"
+                       ContentStringFormat="{}{0} элементов в очереди"/>
+            </TextBlock.ToolTip>
+        </TextBlock>
     </DataTemplate>
 </ResourceDictionary>
