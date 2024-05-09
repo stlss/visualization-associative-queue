@@ -1,6 +1,6 @@
 ﻿using AssociativeLibrary;
 
-namespace ForeignAssociativeOperationLibrary
+namespace ArithmeticOperationLibrary
 {
     public class OperationIntSum : IAssociativeOperation<int>
     {

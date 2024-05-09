@@ -1,5 +1,5 @@
 ﻿using CollectionLibrary.Associative;
-using ForeignAssociativeOperationLibrary;
+using ArithmeticOperationLibrary;
 
 namespace TestCollectionLibrary.Associative
 {
