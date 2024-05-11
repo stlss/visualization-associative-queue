@@ -23,10 +23,10 @@ namespace VisualizationAssociativeQueue.ViewModels
         #region Свойства
 
         #region Индикаторы
-        public IndicatorViewModel<int?> IndicatorOperation { get; private set; }
-        public IndicatorViewModel<int> IndicatorCount { get; private set; }
-        public IndicatorViewModel<int?> IndicatorFirst { get; private set; }
-        public IndicatorViewModel<int?> IndicatorLast { get; private set; }
+        public IndicatorViewModel IndicatorViewModelOperation { get; private set; }
+        public IndicatorViewModel IndicatorViewModelCount { get; private set; }
+        public IndicatorViewModel IndicatorViewModelFirst { get; private set; }
+        public IndicatorViewModel IndicatorViewModelLast { get; private set; }
         #endregion
 
         #region Операции
@@ -49,13 +49,13 @@ namespace VisualizationAssociativeQueue.ViewModels
                 ObservableCollectionsManager.Operation = SelectedOperation;
 
                 #region Обновить индикатор операции
-                IndicatorOperation.Name = SelectedOperation.Name;
-                IndicatorOperation.Description = SelectedOperation.Description;
+                IndicatorViewModelOperation.Name = SelectedOperation.Name;
+                IndicatorViewModelOperation.Description = SelectedOperation.Description;
 
                 if (_associativeQueue.Count != 0)
                 {
-                    IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-                    IndicatorOperation.SolidColorBrush = Brushes.Green;
+                    IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+                    IndicatorViewModelOperation.SolidColorBrush = Brushes.Green;
                 }
                 #endregion
             }
@@ -132,19 +132,19 @@ namespace VisualizationAssociativeQueue.ViewModels
             DequeueCommand.NotifyCanExecuteChanged();
 
             #region Обновление индикаторов
-            IndicatorCount.Value = _associativeQueue.Count;
+            IndicatorViewModelCount.Value = _associativeQueue.Count;
 
             if (_associativeQueue.Count == 0)
             {
-                IndicatorOperation.Value = null;
-                IndicatorFirst.Value = null;
-                IndicatorLast.Value = null;
+                IndicatorViewModelOperation.Value = null;
+                IndicatorViewModelFirst.Value = null;
+                IndicatorViewModelLast.Value = null;
             }
             else
             {
-                IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-                IndicatorFirst.Value = _associativeQueue.Peek();
-                IndicatorLast.SolidColorBrush = Brushes.Black;
+                IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+                IndicatorViewModelFirst.Value = _associativeQueue.Peek();
+                IndicatorViewModelLast.SolidColorBrush = Brushes.Black;
             }
             #endregion
 
@@ -200,46 +200,46 @@ namespace VisualizationAssociativeQueue.ViewModels
             #endregion
 
             #region Индикаторы
-            IndicatorOperation = new() 
+            IndicatorViewModelOperation = new() 
             { 
                 Name = nameOperation, 
                 Description = _selectedOperation.Description, 
 
                 // Значение операции null? Цвет - красный.
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
-                ChangeSolidColorBrush = (int? oldValue, int? newValue) => 
+                ChangeSolidColorBrush = (object? oldValue, object? newValue) => 
                     newValue == null ? Brushes.Red : 
                         oldValue != newValue ? Brushes.Green : Brushes.Black,
             };
 
-            IndicatorCount = new() 
+            IndicatorViewModelCount = new() 
             { 
                 Name = "Count", 
                 Description = "Число элементов в очереди",
                 Value = 0,
 
                 // Число элементов 0? Цвет - красный, иначе чёрный. 
-                ChangeSolidColorBrush = (int _, int newValue) => 
-                    newValue == 0 ? Brushes.Red : Brushes.Black,
+                ChangeSolidColorBrush = (object? _, object? newValue) => 
+                    (int?)newValue == 0 ? Brushes.Red : Brushes.Black,
             };
 
-            IndicatorFirst = new() 
+            IndicatorViewModelFirst = new() 
             { 
                 Name = "First", 
                 Description = "Первый элемент в очереди",
 
                 // Первый элемент null? Цвет - красный, иначе зелёный. 
-                ChangeSolidColorBrush = (int? _, int? newValue) => 
+                ChangeSolidColorBrush = (object? _, object? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
 
-            IndicatorLast = new() 
+            IndicatorViewModelLast = new() 
             { 
                 Name = "Last", 
                 Description = "Последний элемент в очереди",
 
                 // Последний элемент null? Цвет - красный, иначе зелёный. 
-                ChangeSolidColorBrush = (int? _, int? newValue) => 
+                ChangeSolidColorBrush = (object? _, object? newValue) => 
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
             #endregion
@@ -286,13 +286,13 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         private void UpdateIndicatorsAfterEnqueue()
         {
-            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-            IndicatorCount.Value = _associativeQueue.Count;
-            IndicatorFirst.Value = _associativeQueue.Peek();
-            IndicatorLast.Value = _lastElement;
+            IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorViewModelCount.Value = _associativeQueue.Count;
+            IndicatorViewModelFirst.Value = _associativeQueue.Peek();
+            IndicatorViewModelLast.Value = _lastElement;
 
             if (_associativeQueue.Count != 1)
-                IndicatorFirst.SolidColorBrush = Brushes.Black;
+                IndicatorViewModelFirst.SolidColorBrush = Brushes.Black;
         }
 
         private void UpdateIndicatorsAfterDequeue()
@@ -303,18 +303,18 @@ namespace VisualizationAssociativeQueue.ViewModels
                 return;
             }
 
-            IndicatorCount.Value = _associativeQueue.Count;
-            IndicatorOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-            IndicatorFirst.Value = _associativeQueue.Peek();
-            IndicatorLast.SolidColorBrush = Brushes.Black;
+            IndicatorViewModelCount.Value = _associativeQueue.Count;
+            IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorViewModelFirst.Value = _associativeQueue.Peek();
+            IndicatorViewModelLast.SolidColorBrush = Brushes.Black;
         }
 
         private void UpdateIndicatorsAfterClear()
         {
-            IndicatorOperation.Value = null;
-            IndicatorFirst.Value = null;
-            IndicatorLast.Value = null;
-            IndicatorCount.Value = 0;
+            IndicatorViewModelOperation.Value = null;
+            IndicatorViewModelFirst.Value = null;
+            IndicatorViewModelLast.Value = null;
+            IndicatorViewModelCount.Value = 0;
         }
 
         private void UpdateIndicatorsAfterGenerate()

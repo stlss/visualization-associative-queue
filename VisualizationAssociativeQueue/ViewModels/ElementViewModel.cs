@@ -8,11 +8,11 @@ namespace VisualizationAssociativeQueue.ViewModels
     /// <summary>
     /// Вьюмоделей элемента коллекции, который на экране выглядит как квадрат со значением элемента и его статусом.
     /// </summary>
-    internal class ElementViewModel<T>(T value) : ObservableObject
+    internal class ElementViewModel : ObservableObject
     {
         #region Значение
-        private T _value = value;
-        public T Value
+        private object? _value = null;
+        public object? Value
         {
             get => _value;
             set => SetProperty(ref _value, value);

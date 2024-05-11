@@ -6,7 +6,7 @@ namespace VisualizationAssociativeQueue.ViewModels
     /// <summary>
     /// Вьюмодель индикатора очереди, который на экране (в нижней части) выглядит как название свойства очереди и его значение.
     /// </summary>
-    internal class IndicatorViewModel<T> : ObservableObject
+    internal class IndicatorViewModel : ObservableObject
     {
         #region Название
         private string _name = "NoName";
@@ -28,8 +28,8 @@ namespace VisualizationAssociativeQueue.ViewModels
 
 
         #region Значение
-        private T? _value = default; 
-        public T? Value
+        private object? _value = default; 
+        public object? Value
         {
             get => _value;
             set
@@ -61,7 +61,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         #endregion
 
         #region Логика изменения цвета
-        public Func<T?, T?, SolidColorBrush>? ChangeSolidColorBrush { get; set; }
+        public Func<object?, object?, SolidColorBrush>? ChangeSolidColorBrush { get; set; }
         #endregion
     }
 }

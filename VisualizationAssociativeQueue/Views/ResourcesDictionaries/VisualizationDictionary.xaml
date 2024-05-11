@@ -1,6 +1,7 @@
 ﻿<!--Словарь ресурсов, использующихся в области визуализации очереди-->
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels">
     
     <!--Стиль лейбов, содержащих названия областей визуализации-->
     <Style x:Key="NameAreaLabelVisualizationStyle" TargetType="Label">
@@ -102,7 +103,7 @@
     </ItemsPanelTemplate>
     
     <!--Шаблон данных элементов коллекций-->
-    <DataTemplate x:Key="ItemVisualizationTemplate">
+    <DataTemplate x:Key="ItemVisualizationTemplate" DataType="vm:ElementViewModel">
         <Border Style="{StaticResource BorderVisualizationStyle}">
             <Grid Background="{Binding SolidColorBrush}">
                 <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 

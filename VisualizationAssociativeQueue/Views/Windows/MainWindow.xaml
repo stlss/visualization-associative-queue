@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
+        xmlns:vc="clr-namespace:VisualizationAssociativeQueue.Views.Controls"
         mc:Ignorable="d"
         Title="VisualizationAssociativeQueue" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="800"
@@ -264,33 +265,13 @@
                             <Image Style="{StaticResource ImageBracketVisualizationStyle}"/>
 
                             <!--Верхушка пуш-ассоциативного-стека-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}">
-
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}"/>
 
                             <!--Открывающая скобка-->
                             <Image Style="{StaticResource ImageCommaVisualizationStyle}"/>
 
                             <!--Верхушка поп-ассоциативного-стека-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.PopAssociativeStackPeekViewModel}">
-
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.PopAssociativeStackPeekViewModel}"/>
 
                             <!--Закрывающая скобка-->
                             <Image Style="{StaticResource ImageBracketVisualizationStyle}" FlowDirection="RightToLeft"/>
@@ -299,17 +280,7 @@
                             <Image Style="{StaticResource ImageEqualVisualizationStyle}"/>
 
                             <!--Результат ассоциативной операции-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}">
-
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -439,74 +410,20 @@
                     <!--Основные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <!--Ассоциативная операция-->
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorOperation.Name}">
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelOperation}"/>
 
-                                <Label.ToolTip>
-                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
-                                           Content="{Binding IndicatorOperation.Description}"
-                                           ContentStringFormat="{}{0} элементов в очереди"/>
-                                </Label.ToolTip>
-                            </Label>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorOperation.DisplayValue}"
-                                   Foreground="{Binding IndicatorOperation.SolidColorBrush}"/>
-                        </StackPanel>
-                        
                         <!--Число элементов в очереди-->
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorCount.Name}">
-
-                                <Label.ToolTip>
-                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
-                                           Content="{Binding IndicatorCount.Description}"/>
-                                </Label.ToolTip>
-                            </Label>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorCount.DisplayValue}"
-                                   Foreground="{Binding IndicatorCount.SolidColorBrush}"/>
-                        </StackPanel>
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelCount}"/>
                     </StackPanel>
 
                     <!--Дополнительные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <!--Первый элемент в очереди-->
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFirst.Name}">
-
-                                <Label.ToolTip>
-                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
-                                           Content="{Binding IndicatorFirst.Description}"/>
-                                </Label.ToolTip>
-                            </Label>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFirst.DisplayValue}"
-                                   Foreground="{Binding IndicatorFirst.SolidColorBrush}"/>
-                        </StackPanel>
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelFirst}"/>
 
                         <!--Последний элемент в очереди-->
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorLast.Name}">
-
-                                <Label.ToolTip>
-                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
-                                           Content="{Binding IndicatorLast.Description}"/>
-                                </Label.ToolTip>
-                            </Label>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorLast.DisplayValue}"
-                                   Foreground="{Binding IndicatorLast.SolidColorBrush}"/>
-                        </StackPanel>
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelLast}"/>
                     </StackPanel>
-
                 </StackPanel>
             </Viewbox>
         </Grid>
