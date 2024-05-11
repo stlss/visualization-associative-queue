@@ -63,7 +63,7 @@ namespace VisualizationAssociativeQueue.ViewModels
         #endregion
 
         #region Менеджер наблюдаемых коллекций
-        public ObservableCollectionsManager ObservableCollectionsManager { get; private set; }
+        public ObservableCollectionsManager<int> ObservableCollectionsManager { get; private set; }
         #endregion
 
         #region Видимость стрелок
@@ -162,6 +162,8 @@ namespace VisualizationAssociativeQueue.ViewModels
             _associativeQueue.Clear();
             ObservableCollectionsManager.Clear();
 
+            DequeueCommand.NotifyCanExecuteChanged();
+
             UpdateIndicators();
             UpdateArrowsVisibility();
         }
@@ -170,13 +172,26 @@ namespace VisualizationAssociativeQueue.ViewModels
         #region Сгенерировать очередь
         public RelayCommand<string?> GenerateCommand { get; private set; }
 
-        private void ExecuteGenerateCommand(string? strNumber)
+        private void ExecuteGenerateCommand(string? strSeed)
         {
+            _associativeQueue.Clear();
+            ObservableCollectionsManager.Clear();
+
+            var seed = int.Parse(strSeed!);
+            int countElements = new Random(seed).Next(3, 9);
+
+            QueueGenerator.DoRandomQueueOperation(countElements, _associativeQueue, out int _, seed);
+            QueueGenerator.DoRandomQueueOperation(countElements, ObservableCollectionsManager, out int lastElement, seed);
+            _lastElement = lastElement;
+
+            DequeueCommand.NotifyCanExecuteChanged();
+            ObservableCollectionsManager.UpdateStatusesStackPeekViewModels();
+
             UpdateIndicators();
             UpdateArrowsVisibility();
         }
 
-        private bool CanExecuteGenerateCommand(string? strNumber) => int.TryParse(strNumber, out _);
+        private bool CanExecuteGenerateCommand(string? strSeed) => int.TryParse(strSeed, out _);
         #endregion
 
         #endregion
@@ -279,6 +294,7 @@ namespace VisualizationAssociativeQueue.ViewModels
                     break;
 
                 case nameof(ExecuteGenerateCommand):
+                    UpdateIndicatorsAfterGenerate();
                     break;
             }
         }
@@ -319,7 +335,10 @@ namespace VisualizationAssociativeQueue.ViewModels
 
         private void UpdateIndicatorsAfterGenerate()
         {
-
+            IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
+            IndicatorViewModelFirst.Value = _associativeQueue.Peek();
+            IndicatorViewModelLast.Value = _lastElement;
+            IndicatorViewModelCount.Value = _associativeQueue.Count;
         }
         #endregion
 

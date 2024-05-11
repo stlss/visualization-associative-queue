@@ -8,13 +8,13 @@ namespace VisualizationAssociativeQueue.Models
     /// <summary>
     /// Менеджер наблюдаемых коллекций, содержимое которых отображается пользователю.
     /// </summary>
-    internal class ObservableCollectionsManager
+    internal class ObservableCollectionsManager<T> : Queue<T>
     {
         #region Поля
         private readonly ObservableStack<ElementViewModel>[] _stacks;
         private readonly StackPeekViewModel[] _stackPeekviewModels;
         private ElementViewModel? _lastElementViewModel;
-        private IAssociativeOperation<int> _operation;
+        private IAssociativeOperation<T> _operation;
         #endregion
 
 
@@ -27,7 +27,8 @@ namespace VisualizationAssociativeQueue.Models
 
         public ObservableQueue<ElementViewModel> Queue { get; private set; } = [];
 
-        public IAssociativeOperation<int> Operation
+
+        public IAssociativeOperation<T> Operation
         {
             get => _operation;
             set
@@ -38,12 +39,10 @@ namespace VisualizationAssociativeQueue.Models
                 UpdateAssociativeStack(PopStack, PopAssociativeStack);
 
                 UpdateStackPeekViewModels();
-
-                foreach (var stackPeekViewModel in _stackPeekviewModels)
-                    if (stackPeekViewModel.Value != null)
-                        stackPeekViewModel.Status = StackPeekStatus.New;
+                UpdateStatusesStackPeekViewModels();
             }
         }
+
 
         public StackPeekViewModel PushAssociativeStackPeekViewModel { get; private set; } = new();
         public StackPeekViewModel PopAssociativeStackPeekViewModel { get; private set; } = new();
@@ -52,7 +51,7 @@ namespace VisualizationAssociativeQueue.Models
         #endregion
 
 
-        public ObservableCollectionsManager(IAssociativeOperation<int> operation)
+        public ObservableCollectionsManager(IAssociativeOperation<T> operation)
         {
             _stacks = [PushStack, PopStack, PushAssociativeStack, PopAssociativeStack];
             _stackPeekviewModels = [PushAssociativeStackPeekViewModel, PopAssociativeStackPeekViewModel, ResultAssociativeOperationViewModel];
@@ -64,13 +63,13 @@ namespace VisualizationAssociativeQueue.Models
         #region Методы
 
         #region Публичные методы
-        public void Enqueue(int number)
+        public new void Enqueue(T value)
         {
             UpdateCollections();
 
             var item = new ElementViewModel 
             { 
-                Value = number,
+                Value = value,
                 Status = ElementStatus.New 
             };
 
@@ -82,7 +81,7 @@ namespace VisualizationAssociativeQueue.Models
             {
                 var associativeItem = new ElementViewModel() 
                 { 
-                    Value = Operation.Func((int)item.Value, (int)PushAssociativeStack.Peek().Value!)
+                    Value = Operation.Func((T)item.Value!, (T)PushAssociativeStack.Peek().Value!)
                 };
 
                 PushAssociativeStack.Push(associativeItem);
@@ -94,7 +93,7 @@ namespace VisualizationAssociativeQueue.Models
             UpdateStackPeekViewModels();
         }
 
-        public void Dequeue()
+        public new void Dequeue()
         {
             UpdateCollections();
 
@@ -113,7 +112,7 @@ namespace VisualizationAssociativeQueue.Models
                     {
                         var associativeItem = new ElementViewModel() 
                         { 
-                            Value = Operation.Func((int)item.Value!, (int)PopAssociativeStack.Peek().Value!),
+                            Value = Operation.Func((T)item.Value!, (T)PopAssociativeStack.Peek().Value!),
                             Status = ElementStatus.Old 
                         };
 
@@ -129,7 +128,7 @@ namespace VisualizationAssociativeQueue.Models
             UpdateStackPeekViewModels();
         }
 
-        public void Clear() 
+        public new void Clear() 
         { 
             foreach (var stack  in _stacks)
                 stack.Clear();
@@ -139,9 +138,11 @@ namespace VisualizationAssociativeQueue.Models
             UpdateStackPeekViewModels();
         }
 
-        public void Generate()
+        public void UpdateStatusesStackPeekViewModels()
         {
-
+            foreach (var stackPeekViewModel in _stackPeekviewModels)
+                if (stackPeekViewModel.Value != null)
+                    stackPeekViewModel.Status = StackPeekStatus.New;
         }
         #endregion
 
@@ -185,7 +186,7 @@ namespace VisualizationAssociativeQueue.Models
             var associativeList = associativeStack.ToList();
 
             for (int i = stack.Count - 2; i >= 0; i--)
-                associativeList[i].Value = Operation.Func((int)associativeList[i + 1].Value!, (int)list[i].Value!); 
+                associativeList[i].Value = Operation.Func((T)associativeList[i + 1].Value!, (T)list[i].Value!); 
         }
 
         /// <summary>
@@ -242,7 +243,7 @@ namespace VisualizationAssociativeQueue.Models
                 return;
             }
 
-            ResultAssociativeOperationViewModel.Value = Operation.Func((int)PushAssociativeStackPeekViewModel.Value, (int)PopAssociativeStackPeekViewModel.Value);
+            ResultAssociativeOperationViewModel.Value = Operation.Func((T)PushAssociativeStackPeekViewModel.Value, (T)PopAssociativeStackPeekViewModel.Value);
         }
         #endregion
 

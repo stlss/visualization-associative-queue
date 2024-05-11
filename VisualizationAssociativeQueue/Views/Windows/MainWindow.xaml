@@ -389,6 +389,17 @@
                                     Command="{Binding GenerateCommand}"
                                     CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}">
 
+                                <!--При клике прокручиваем скроллы с пуш-стеками, c очередью влево; скорллы с поп-стекам вправо-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushAssociativeStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopAssociativeStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToLeftEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+                                
                                 <Button.ToolTip>
                                     <Label Style="{StaticResource ToolTripLabelManagementStyle}"
                                            Content="Сгенерировать очередь по ключу"/>
