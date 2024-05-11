@@ -2,7 +2,7 @@
 <!--В случае отсутствия конфига или его некорректности, он создаться заново-->
 <Assemblies>
 	<!--В случае отсутствия сборки VisualizationAssociativeQueue.dll, она автоматически добавится-->
-	<Assembly Name="VisualizationAssociativeQueue.dll" Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\VisualizationAssociativeQueue\bin\Debug\net8.0-windows\VisualizationAssociativeQueue.dll"/>
-	<Assembly Name="ArithmeticOperationLibrary.dll" Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\ArithmeticOperationLibrary\bin\Debug\net8.0\ArithmeticOperationLibrary.dll"/>
-	<Assembly Name="ForeignAssociativeOperationLibrary.dll" Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\BitwiseOperationLibrary\bin\Debug\net8.0\BitwiseOperationLibrary.dll"/>
+	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\VisualizationAssociativeQueue\bin\Debug\net8.0-windows\VisualizationAssociativeQueue.dll"/>
+	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\ArithmeticOperationLibrary\bin\Debug\net8.0\ArithmeticOperationLibrary.dll"/>
+	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\BitwiseOperationLibrary\bin\Debug\net8.0\BitwiseOperationLibrary.dll"/>
 </Assemblies>

@@ -16,6 +16,8 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         /// </summary>
         private static readonly string s_pathAssembly = Assembly.GetExecutingAssembly().Location;
 
+        private static readonly string s_nameAssembly = Assembly.GetExecutingAssembly().GetName().Name!;
+
         /// <summary>
         /// Конфиг, содержащий сборки и их пути, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
         /// </summary>
@@ -35,19 +37,21 @@ namespace VisualizationAssociativeQueue.Models.Associativity
             var assemblies = pathAssemblies.Where(path => Path.GetExtension(path) == ".dll" && Path.Exists(path)).
                 Select(Assembly.LoadFrom);
 
-            var types = assemblies.SelectMany(assembly => assembly.GetTypes()).
-                Where(type => type.GetInterfaces().Any(interface_ =>
-                    interface_.Name == "IAssociativeOperation`1" &&
-                    interface_.IsGenericType &&
-                    interface_.GenericTypeArguments.Any(argument => argument.Name == "Int32")));
+            var typesAssemblies = assemblies.Select(assembly => 
+                assembly.GetTypes().Where(type => type.GetInterfaces().
+                    Any(interface_ =>
+                        interface_.Name == "IAssociativeOperation`1" &&
+                        interface_.IsGenericType &&
+                        interface_.GenericTypeArguments.Any(argument => argument.Name == "Int32"))));
 
-            var operations = types.Select(type => type.GetConstructor([])).
-                Select(constructor => constructor!.Invoke([])).
-                Select(operation => (IAssociativeOperation<int>)operation).
-                DistinctBy(operation => operation.Name).
-                OrderBy(operation => operation.Name);
+            var operationsAssemblies = typesAssemblies.Select(types => 
+                types.Select(type => type.GetConstructor([])).
+                    Select(constructor => constructor!.Invoke([])).
+                    Select(operation => (IAssociativeOperation<int>)operation).
+                    DistinctBy(operation => operation.Name).
+                    OrderBy(operation => operation.Name));
 
-            return operations.ToList();
+            return operationsAssemblies.SelectMany(operations => operations).ToList();
         }
 
 
@@ -77,7 +81,12 @@ namespace VisualizationAssociativeQueue.Models.Associativity
                 config.Save(nameConfig);
             }
 
-            if (!config.Root!.Elements().Any(assembly => assembly.Attribute("Path")?.Value == s_pathAssembly))
+
+            bool isAssemblyVisualizationAssociativeQueue = config.Root!.Elements().
+                Any(assembly => assembly.Name == "Assembly" &&
+                    assembly.Attribute("Path")?.Value == s_pathAssembly);
+
+            if (!isAssemblyVisualizationAssociativeQueue)
             {
                 config.Root.Add(new XElement("Assembly", new XAttribute("Path", s_pathAssembly)));
                 config.Save(nameConfig);
@@ -97,7 +106,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity
                     new XElement("Assemblies",
                         new XComment("В случае отсутствия сборки VisualizationAssociativeQueue.dll, она автоматически добавится"),
                         new XElement("Assembly", 
-                            new XAttribute("Name", "VisualizationAssociativeQueue.dll"), 
+                            new XAttribute("Name", s_nameAssembly), 
                             new XAttribute("Path", s_pathAssembly))));
 
             return config;
