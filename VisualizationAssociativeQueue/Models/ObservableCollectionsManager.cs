@@ -138,11 +138,13 @@ namespace VisualizationAssociativeQueue.Models
             UpdateStackPeekViewModels();
         }
 
+        /// <summary>
+        /// Меняет статус верхушек стека на New если их значение не null, иначе меняет на Missing.
+        /// </summary>
         public void UpdateStatusesStackPeekViewModels()
         {
             foreach (var stackPeekViewModel in _stackPeekviewModels)
-                if (stackPeekViewModel.Value != null)
-                    stackPeekViewModel.Status = StackPeekStatus.New;
+                stackPeekViewModel.Status = stackPeekViewModel.Value != null? StackPeekStatus.New : StackPeekStatus.Missing;
         }
         #endregion
 

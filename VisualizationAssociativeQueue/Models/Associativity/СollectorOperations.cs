@@ -16,8 +16,6 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         /// </summary>
         private static readonly string s_pathAssembly = Assembly.GetExecutingAssembly().Location;
 
-        private static readonly string s_nameAssembly = Assembly.GetExecutingAssembly().GetName().Name!;
-
         /// <summary>
         /// Конфиг, содержащий сборки и их пути, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
         /// </summary>
@@ -104,9 +102,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity
                     new XDeclaration("1.0", "utf-8", "true"),
                     new XComment("В случае отсутствия конфига или его некорректности, он создаться заново"),
                     new XElement("Assemblies",
-                        new XComment("В случае отсутствия сборки VisualizationAssociativeQueue.dll, она автоматически добавится"),
-                        new XElement("Assembly", 
-                            new XAttribute("Name", s_nameAssembly), 
+                        new XElement("Assembly",  
                             new XAttribute("Path", s_pathAssembly))));
 
             return config;

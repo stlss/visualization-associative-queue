@@ -16,6 +16,12 @@ namespace VisualizationAssociativeQueue.ViewModels
     internal class MainWindowViewModel : ObservableObject
     {
         #region Поля
+        private static readonly Predicate<string?> s_validateNumber = (string? strNumber) => 
+        {
+            var isNumber = int.TryParse(strNumber, out int number);
+            return isNumber && number >= 0; 
+        };
+
         private readonly AssociativeQueue<int> _associativeQueue;
         private int? _lastElement;
         #endregion
@@ -118,7 +124,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             UpdateArrowsVisibility();
         }
 
-        private bool CanExecuteEnqueueCommand(string? strNumber) => int.TryParse(strNumber, out _);
+        private bool CanExecuteEnqueueCommand(string? strNumber) => s_validateNumber(strNumber);
         #endregion
 
         #region Удалить элемент
@@ -191,7 +197,7 @@ namespace VisualizationAssociativeQueue.ViewModels
             UpdateArrowsVisibility();
         }
 
-        private bool CanExecuteGenerateCommand(string? strSeed) => int.TryParse(strSeed, out _);
+        private bool CanExecuteGenerateCommand(string? strSeed) => s_validateNumber(strSeed);
         #endregion
 
         #endregion

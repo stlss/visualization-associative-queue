@@ -1,19 +1,21 @@
 ﻿using System.Reflection;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace VisualizationAssociativeQueue.Models
 {
+    /// <summary>
+    /// Статический класс, предоставляющий метод, слкучайного заполнения очереди.
+    /// </summary>
     internal static class QueueGenerator
     {
-        public static void DoRandomQueueOperation(int countElements, object queue, out int lastElement, int seed = 0, int minValue = 0, int maxValue = 100)
+        /// <summary>
+        /// Случайно заполняет очередь, путём совершения случайных операций (Enqueue и Dequeue).
+        /// </summary>
+        public static void DoRandomQueueOperation(int countElements, Queue<int> queue, out int lastElement, int seed = 0, int minValue = 0, int maxValue = 100)
         {
             if (countElements < 1)
                 throw new ArgumentException("Argument countOperation must be greater 0.");
 
-            if (queue is not Queue<int>)
-                throw new ArgumentException("Argument queue is not Queue<int>.");
-
-
+            // Используем рефлексию, так как методы Enqueue и Dequeue у Queue<T> не виртуальные. 
             Type typeQueue = queue.GetType();
             MethodInfo methodEnqueue = typeQueue.GetMethod("Enqueue")!;
             MethodInfo methodDequeue = typeQueue.GetMethod("Dequeue")!;
@@ -24,23 +26,26 @@ namespace VisualizationAssociativeQueue.Models
             int countElementsPushStack = countElements - countElementsPopStack;
             lastElement = 0;
 
+            // Добавляем фиктивный элемент
             methodEnqueue.Invoke(queue, [0]);
 
+            // Все добавленные элементы в цикле окажутся в PopStack'е.
             for (int i = 0; i < countElementsPopStack; i++)
             {
                 var number = random.Next(minValue, maxValue);
-                lastElement = number;
                 methodEnqueue.Invoke(queue, [number]);
+                lastElement = number;
             }
 
+            // Удаляем фиктивный элемент.
             methodDequeue.Invoke(queue, []);
 
-
+            // Все добавленные элементы в цикле окажутся в PushStack'е.
             for (int i = 0; i < countElementsPushStack; i++)
             {
                 var number = random.Next(minValue, maxValue);
-                lastElement = number;
                 methodEnqueue.Invoke(queue, [number]);
+                lastElement = number;
             }
         }
     }

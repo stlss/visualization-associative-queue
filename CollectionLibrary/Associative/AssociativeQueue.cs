@@ -3,8 +3,12 @@ using System.Reflection;
 
 namespace CollectionLibrary.Associative
 {
+    /// <summary>
+    /// Обобщённая очередь, поддерживающая нахождение значения ассоцитивной операции за O(1).
+    /// </summary>
     public class AssociativeQueue<T> : Queue<T>, IAssociativeCollection<T>
     {
+        #region Поля
         /// <summary>
         /// Пуш-стек, добавляемый в очередь элемент добавляется в него.
         /// </summary>
@@ -16,7 +20,11 @@ namespace CollectionLibrary.Associative
         /// </summary>
         private readonly AssociativeStack<T> _popStack;
 
+        /// <summary>
+        /// Поле для ExceptionWizard.
+        /// </summary>
         private readonly PropertyInfo _propertyOperation = typeof(AssociativeQueue<T>).GetProperty("Operation")!;
+        #endregion
 
 
         #region Конструкторы

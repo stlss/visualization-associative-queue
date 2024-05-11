@@ -6,7 +6,7 @@ using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 namespace VisualizationAssociativeQueue.ViewModels
 {
     /// <summary>
-    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящиеся в правом нижнем углу области визуализации.
+    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящийся в правом нижнем углу области визуализации.
     /// </summary>
     internal class StackPeekViewModel : ObservableObject
     {
