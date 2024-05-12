@@ -30,6 +30,7 @@
     <!--Стиль текстбоксов-->
     <Style x:Key="TextBoxManagementStyle" TargetType="TextBox" BasedOn="{StaticResource BaseControlManagementStyle}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MaxLength" Value="6"/>
     </Style>
     
     <!--Стиль комбобоксов-->

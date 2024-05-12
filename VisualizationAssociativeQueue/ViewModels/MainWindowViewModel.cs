@@ -230,7 +230,7 @@ namespace VisualizationAssociativeQueue.ViewModels
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
                 ChangeSolidColorBrush = (object? oldValue, object? newValue) => 
                     newValue == null ? Brushes.Red : 
-                        oldValue != newValue ? Brushes.Green : Brushes.Black,
+                        (int?)oldValue != (int?)newValue ? Brushes.Green : Brushes.Black,
             };
 
             IndicatorViewModelCount = new() 
