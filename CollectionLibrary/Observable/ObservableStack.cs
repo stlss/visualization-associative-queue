@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 
 namespace CollectionLibrary.Observable
 {
+    /// <summary>
+    /// Стек, уведомляющий о своих изменениях.
+    /// </summary>
     public class ObservableStack<T> : Stack<T>, INotifyCollectionChanged
     {
         #region Реализация интерфейса INotifyCollectionChanged

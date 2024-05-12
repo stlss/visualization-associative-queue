@@ -2,6 +2,9 @@
 
 namespace VisualizationAssociativeQueue.Infrastructure
 {
+    /// <summary>
+    /// Статический класс, предоставляющий собственные цвета.
+    /// </summary>
     internal static class Brushes
     {
         private static SolidColorBrush GetSolidColorBrushFromRGB(byte r, byte g, byte b) => new(Color.FromArgb(255, r, g, b));

@@ -3,14 +3,22 @@ using System.Reflection;
 
 namespace CollectionLibrary.Associative
 {
+    /// <summary>
+    /// Обобщённый стек, поддерживающий нахождение значения ассоцитивной операции за O(1).
+    /// </summary>
     public class AssociativeStack<T> : Stack<T>, IAssociativeCollection<T>
     {
+        #region Поля
         /// <summary>
         /// Стек, i-ый элемент которого является результатом ассоциативной операции (0-го, 1-го, ..., i-ого) элементов основного стека. 
         /// </summary>
         private readonly Stack<T> _onlyAssociativeStack;
 
+        /// <summary>
+        /// Поле для ExceptionWizard.
+        /// </summary>
         private readonly PropertyInfo _propertyOperation = typeof(AssociativeStack<T>).GetProperty("Operation")!;
+        #endregion
 
 
         #region Конструкторы

@@ -1,5 +1,4 @@
-﻿using CollectionLibrary.Associative;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace CollectionLibrary
 {
@@ -17,7 +16,7 @@ namespace CollectionLibrary
         }
 
         /// <summary>
-        /// Выбрасывает исключение - обращение к null свойству.
+        /// Выбрасывает исключение - обращение к свойству, имеющие значение null.
         /// </summary>
         public static void ThrowNullPropertyCollection<T>(IEnumerable<T> collection, PropertyInfo property)
         {

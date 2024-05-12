@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
+        xmlns:vc="clr-namespace:VisualizationAssociativeQueue.Views.Controls"
         mc:Ignorable="d"
         Title="VisualizationAssociativeQueue" Height="450" Width="800"
         WindowStartupLocation="CenterScreen" MinHeight="450" MinWidth="800"
-        Icon="pack://application:,,,/Resources/Icons/Icon.ico">
+        Icon="pack://application:,,,/Resources/Icons/Icon.ico"
+        Name="window">
 
     <Window.DataContext>
         <vm:MainWindowViewModel/>
@@ -21,7 +24,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -55,7 +58,10 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPushStack"
+                                  ScrollChanged="SynchronizeLeftScrollViewers">
+
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
 
@@ -67,6 +73,10 @@
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPushStacksVisibility}"/>
+                            
                         </StackPanel>
                     </ScrollViewer>
                 </Viewbox>
@@ -86,7 +96,10 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPopStack"
+                                  ScrollChanged="SynchronizeRightScrollViewers">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
 
@@ -97,6 +110,10 @@
                             <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PopStack}"
                                           ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPopStacksVisibility}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -119,7 +136,10 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPushAssociativeStack"
+                                  ScrollChanged="SynchronizeLeftScrollViewers">
+
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Right" FlowDirection="RightToLeft">
 
@@ -130,6 +150,10 @@
                             <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PushAssociativeStack}"
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPushStacksVisibility}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -151,7 +175,10 @@
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerPopAssociativeStack"
+                                  ScrollChanged="SynchronizeRightScrollViewers">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Left" FlowDirection="LeftToRight">
 
@@ -162,6 +189,10 @@
                             <ItemsControl ItemsSource="{Binding ObservableCollectionsManager.PopAssociativeStack}"
                                           ItemsPanel="{StaticResource ItemsPanelLeftToRightVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
+
+                            <!--Стрелка-->
+                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"
+                                   Visibility="{Binding ArrowPopStacksVisibility}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -178,16 +209,18 @@
                 
                 <!--Название области-->
                 <Viewbox Grid.Row="0">
-                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="Queue"/>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" Content="SimpleQueue"/>
                 </Viewbox>
                 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
-                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
+                    <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}"
+                                  x:Name="ScrollViewerSimpleQueue">
+                        
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
                                     HorizontalAlignment="Center" FlowDirection="RightToLeft">
                             
-                            <!--Первая стрелочка-->
+                            <!--Постоянная стрелка-->
                             <Image Style="{StaticResource ImageArrowVisualizationStyle}"/>
 
                             <!--Содержимое очереди-->
@@ -195,9 +228,9 @@
                                           ItemsPanel="{StaticResource ItemsPanelRightToLeftVisualizationTemplate}"
                                           ItemTemplate="{StaticResource ItemVisualizationTemplate}"/>
 
-                            <!--Вторая стрелочка-->
+                            <!--Стрелка-->
                             <Image Style="{StaticResource ImageArrowVisualizationStyle}"
-                                   Visibility="{Binding ArrowVisibility}"/>
+                                   Visibility="{Binding ArrowQueueVisibility}"/>
                             
                         </StackPanel>
                     </ScrollViewer>
@@ -213,57 +246,41 @@
                 
                 <!--Название области-->
                 <Viewbox Grid.Row="0">
-                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}" ContentStringFormat="{}Get{0}"
-                           Content="{Binding SelectedOperation.Name}"/>
+                    <Label Style="{StaticResource NameAreaLabelVisualizationStyle}"
+                           Content="GetResultAssociativeOperation"/>
                 </Viewbox>
 
                 <!--Отображение содержимого области-->
                 <Viewbox Grid.Row="1">
                     <ScrollViewer Style="{StaticResource ScrollViewerVisualizationStyle}">
                         <StackPanel Style="{StaticResource StackPanelVisualizationStyle}"
-                                    HorizontalAlignment="Center" FlowDirection="RightToLeft">
+                                    HorizontalAlignment="Center">
                             
-                            <!--Результат ассоциативной операции-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}">
+                            <!--Название операции-->
+                            <Viewbox Style="{StaticResource ViewBoxNameOperationElementVisualizationStyle}">
+                                <Label Content="{Binding SelectedOperation.Name}" Padding="0"/>
+                            </Viewbox>
 
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-        
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
-
-                            <!--Стрелочка-->
-                            <Image Style="{StaticResource ImageArrowVisualizationStyle}"/>
-
-                            <!--Верхушка поп-ассоциативного-стека-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.PopAssociativeStackPeekViewModel}">
-
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
+                            <!--Открывающая скобка-->
+                            <Image Style="{StaticResource ImageBracketVisualizationStyle}"/>
 
                             <!--Верхушка пуш-ассоциативного-стека-->
-                            <Border Style="{StaticResource BorderVisualizationStyle}"
-                                    DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}">
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.PushAssociativeStackPeekViewModel}"/>
 
-                                <Grid Background="{Binding SolidColorBrush}">
-                                    <Label Style="{StaticResource LabelStatusElementVisualizationStyle}" 
-                                           Content="{Binding DisplayStatus}"/>
-                                    
-                                    <Label Style="{StaticResource LabelValueElementVisualizationStyle}" 
-                                           Content="{Binding DisplayValue}"/>
-                                </Grid>
-                            </Border>
+                            <!--Открывающая скобка-->
+                            <Image Style="{StaticResource ImageCommaVisualizationStyle}"/>
+
+                            <!--Верхушка поп-ассоциативного-стека-->
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.PopAssociativeStackPeekViewModel}"/>
+
+                            <!--Закрывающая скобка-->
+                            <Image Style="{StaticResource ImageBracketVisualizationStyle}" FlowDirection="RightToLeft"/>
+
+                            <!--Знак равно-->
+                            <Image Style="{StaticResource ImageEqualVisualizationStyle}"/>
+
+                            <!--Результат ассоциативной операции-->
+                            <vc:StackPeek DataContext="{Binding ObservableCollectionsManager.ResultAssociativeOperationViewModel}"/>
 
                         </StackPanel>
                     </ScrollViewer>
@@ -281,94 +298,143 @@
                     <!--Основные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка добавления элемента в очередь-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
-                                    Content="Enqueue" ToolTip="Добавить элемент в конец очереди"
+                                    Content="Enqueue"
                                     Command="{Binding EnqueueCommand}"
-                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
-                            
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="PushTextBox"
-                                     ToolTip="Поле для ввода добавляемого элемента"/>
-                        </StackPanel>
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"
+                                    CommandTarget="{Binding ElementName=ScrollViewerSimpleQueue}">
 
+                                <!--При клике прокручиваем скроллы с пуш-стеками и очередью влево-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushAssociativeStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToLeftEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+
+                                <Button.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Добавить элемент в конец очереди"/>
+                                </Button.ToolTip>
+                            </Button>
+
+                            <!--Текстбок для ввода элемента-->
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" 
+                                     Name="PushTextBox">
+
+                                <TextBox.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Поле для ввода добавляемого элемента"/>
+                                </TextBox.ToolTip>
+                            </TextBox>
+                        </StackPanel>
+                        
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка удаления элемента из очереди-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
-                                    Content="Dequeue" ToolTip="Удалить элемент из начала очереди"
+                                    Content="Dequeue"
                                     Command="{Binding DequeueCommand}"
-                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}"/>
+                                    CommandParameter="{Binding ElementName=PushTextBox, Path=Text}">
+
+                                <!--При клике прокручиваем скроллы с поп-стеками и очередью вправо-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopAssociativeStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToRightEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+
+                                <Button.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Удалить элемент из начала очереди"/>
+                                </Button.ToolTip>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
 
                     <!--Дополнительные кнопки-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}" ToolTip="Ассоциативная операция"
+                            <!--Комбобокс с ассоциативным операциями-->
+                            <ComboBox Style="{StaticResource ComboBoxManagementStyle}"
                                       ItemTemplate="{StaticResource OperationManagementDataTemplate}"
                                       ItemsSource="{Binding Operations}"
-                                      SelectedItem="{Binding SelectedOperation}"/>
+                                      SelectedItem="{Binding SelectedOperation}">
 
+                                <ComboBox.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Ассоциативная операция"/>
+                                </ComboBox.ToolTip>
+                            </ComboBox>
 
+                            <!--Кнопка очистки очереди-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
-                                    Content="Clear" ToolTip="Удалить все элементы из очереди"
-                                    Command="{Binding ClearCommand}"/>
+                                    Content="Clear"
+                                    Command="{Binding ClearCommand}">
+
+                                <Button.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Удалить все элементы из очереди"/>
+                                </Button.ToolTip>
+                            </Button>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
+                            <!--Кнопка генерации очереди по сиду-->
                             <Button Style="{StaticResource ButtonManagementStyle}" 
-                                    Content="Generate" ToolTip="Сгенерировать очередь по ключу"
+                                    Content="Generate"
                                     Command="{Binding GenerateCommand}"
-                                    CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}"/>
-                            
-                            <TextBox Style="{StaticResource TextBoxManagementStyle}" Name="GenerateTextBox"
-                                     ToolTip="Поле для ввода ключа генерации очереди"/>
+                                    CommandParameter="{Binding ElementName=GenerateTextBox, Path=Text}">
+
+                                <!--При клике прокручиваем скроллы с пуш-стеками, c очередью влево; скорллы с поп-стекам вправо-->
+                                <bh:Interaction.Triggers>
+                                    <bh:EventTrigger EventName="Click">
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPushAssociativeStack}" MethodName="ScrollToLeftEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerPopAssociativeStack}" MethodName="ScrollToRightEnd"/>
+                                        <bh:CallMethodAction TargetObject="{Binding ElementName=ScrollViewerSimpleQueue}" MethodName="ScrollToLeftEnd"/>
+                                    </bh:EventTrigger>
+                                </bh:Interaction.Triggers>
+                                
+                                <Button.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Сгенерировать очередь по ключу"/>
+                                </Button.ToolTip>
+                            </Button>
+
+                            <!--Текстбокс для ввода сида-->
+                            <TextBox Style="{StaticResource TextBoxManagementStyle}" 
+                                     Name="GenerateTextBox">
+
+                                <TextBox.ToolTip>
+                                    <Label Style="{StaticResource ToolTripLabelManagementStyle}"
+                                           Content="Поле для ввода ключа генерации очереди"/>
+                                </TextBox.ToolTip>
+                            </TextBox>
                         </StackPanel>
                     </StackPanel>
 
                     <!--Основные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorOperation.Name}"
-                                   ToolTip="{Binding IndicatorOperation.Description}"/>
+                        <!--Ассоциативная операция-->
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelOperation}"/>
 
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorOperation.DisplayValue}"
-                                   Foreground="{Binding IndicatorOperation.SolidColorBrush}"/>
-                        </StackPanel>
-
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorCount.Name}" 
-                                   ToolTip="{Binding IndicatorCount.Description}"/>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorCount.DisplayValue}"
-                                   Foreground="{Binding IndicatorCount.SolidColorBrush}"/>
-                        </StackPanel>
+                        <!--Число элементов в очереди-->
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelCount}"/>
                     </StackPanel>
 
                     <!--Дополнительные индикаторы-->
                     <StackPanel Style="{StaticResource ContainerStackPanelManagementStyle}">
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFirst.Name}"
-                                   ToolTip="{Binding IndicatorFirst.Description}"/>
+                        <!--Первый элемент в очереди-->
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelFirst}"/>
 
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorFirst.DisplayValue}"
-                                   Foreground="{Binding IndicatorFirst.SolidColorBrush}"/>
-                        </StackPanel>
-
-                        <StackPanel Style="{StaticResource SubContainerStackPanelManagementStyle}">
-                            <Label Style="{StaticResource NameIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorLast.Name}"
-                                   ToolTip="{Binding IndicatorLast.Description}"/>
-
-                            <Label Style="{StaticResource DisplayValueIndicatorLabelManagementStyle}"
-                                   Content="{Binding IndicatorLast.DisplayValue}"
-                                   Foreground="{Binding IndicatorLast.SolidColorBrush}"/>
-                        </StackPanel>
+                        <!--Последний элемент в очереди-->
+                        <vc:Indicator DataContext="{Binding IndicatorViewModelLast}"/>
                     </StackPanel>
-
                 </StackPanel>
             </Viewbox>
         </Grid>

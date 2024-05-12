@@ -6,13 +6,13 @@ using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 namespace VisualizationAssociativeQueue.ViewModels
 {
     /// <summary>
-    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящиеся в правом нижнем углу области визуализации.
+    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящийся в правом нижнем углу области визуализации.
     /// </summary>
-    internal class StackPeekViewModel<T> : ObservableObject
+    internal class StackPeekViewModel : ObservableObject
     {
         #region Значение
-        private T? _value = default;
-        public T? Value
+        private object? _value = null;
+        public object? Value
         {
             get => _value;
             set

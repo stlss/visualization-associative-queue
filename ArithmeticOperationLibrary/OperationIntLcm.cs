@@ -1,12 +1,12 @@
 ﻿using AssociativeLibrary;
 
-namespace ForeignAssociativeOperationLibrary
+namespace ArithmeticOperationLibrary
 {
     public class OperationIntLcm : IAssociativeOperation<int>
     {
         public string Name => "Lcm";
 
-        public string Description => "Наименьшее общее кратное элементов в очереди";
+        public string Description => "Наименьшее общее кратное";
 
         public Func<int, int, int> Func => GetLcm;
 

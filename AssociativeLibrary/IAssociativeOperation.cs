@@ -1,5 +1,8 @@
 ﻿namespace AssociativeLibrary
 {
+    /// <summary>
+    /// Интерфейс для ассоциативных операций, предоставляющий имя, описание и делегат. 
+    /// </summary>
     public interface IAssociativeOperation<T>
     {
         public string Name { get; }

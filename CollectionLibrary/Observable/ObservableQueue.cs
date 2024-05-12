@@ -2,6 +2,9 @@
 
 namespace CollectionLibrary.Observable
 {
+    /// <summary>
+    /// Очередь, уведомляющая о своих изменениях.
+    /// </summary>
     public class ObservableQueue<T> : Queue<T>, INotifyCollectionChanged
     {
         #region Реализация интерфейса INotifyCollectionChanged
