@@ -17,6 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmeticOperationLibrary"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ForeignLibraries", "ForeignLibraries", "{0A96680C-1847-4288-B0D3-F7B0E9A8EF87}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8530608B-51FC-44D8-BABA-119141E4DFF5}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
