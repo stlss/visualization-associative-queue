@@ -1,7 +1,7 @@
 ﻿using AssociativeLibrary;
 using CollectionLibrary.Observable;
 using VisualizationAssociativeQueue.Models.Statuses;
-using VisualizationAssociativeQueue.ViewModels;
+using VisualizationAssociativeQueue.ViewModels.Controls;
 
 namespace VisualizationAssociativeQueue.Models
 {

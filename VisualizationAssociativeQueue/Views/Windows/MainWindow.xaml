@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels"
+        xmlns:vm="clr-namespace:VisualizationAssociativeQueue.ViewModels.Windows"
         xmlns:vc="clr-namespace:VisualizationAssociativeQueue.Views.Controls"
         mc:Ignorable="d"
         Title="VisualizationAssociativeQueue" Height="450" Width="800"

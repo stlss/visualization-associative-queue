@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Media;
 
-namespace VisualizationAssociativeQueue.ViewModels
+namespace VisualizationAssociativeQueue.ViewModels.Controls
 {
     /// <summary>
     /// Вьюмодель индикатора очереди, который на экране (в нижней части) выглядит как название свойства очереди и его значение.
@@ -28,7 +28,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
 
         #region Значение
-        private object? _value = default; 
+        private object? _value = default;
         public object? Value
         {
             get => _value;
