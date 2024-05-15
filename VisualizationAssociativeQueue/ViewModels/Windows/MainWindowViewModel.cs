@@ -138,23 +138,7 @@ namespace VisualizationAssociativeQueue.ViewModels.Windows
 
             DequeueCommand.NotifyCanExecuteChanged();
 
-            #region Обновление индикаторов
-            IndicatorViewModelCount.Value = _associativeQueue.Count;
-
-            if (_associativeQueue.Count == 0)
-            {
-                IndicatorViewModelOperation.Value = null;
-                IndicatorViewModelFirst.Value = null;
-                IndicatorViewModelLast.Value = null;
-            }
-            else
-            {
-                IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-                IndicatorViewModelFirst.Value = _associativeQueue.Peek();
-                IndicatorViewModelLast.SolidColorBrush = Brushes.Black;
-            }
-            #endregion
-
+            UpdateIndicators();
             UpdateArrowsVisibility();
         }
 
