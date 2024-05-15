@@ -6,9 +6,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using VisualizationAssociativeQueue.Models;
 using VisualizationAssociativeQueue.Models.Associativity;
+using VisualizationAssociativeQueue.ViewModels.Controls;
 using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
-namespace VisualizationAssociativeQueue.ViewModels
+namespace VisualizationAssociativeQueue.ViewModels.Windows
 {
     /// <summary>
     /// Вьюмодель главного окна.
@@ -16,10 +17,10 @@ namespace VisualizationAssociativeQueue.ViewModels
     internal class MainWindowViewModel : ObservableObject
     {
         #region Поля
-        private static readonly Predicate<string?> s_validateNumber = (string? strNumber) => 
+        private static readonly Predicate<string?> s_validateNumber = (strNumber) =>
         {
             var isNumber = int.TryParse(strNumber, out int number);
-            return isNumber && number >= 0; 
+            return isNumber && number >= 0;
         };
 
         private readonly AssociativeQueue<int> _associativeQueue;
@@ -137,23 +138,7 @@ namespace VisualizationAssociativeQueue.ViewModels
 
             DequeueCommand.NotifyCanExecuteChanged();
 
-            #region Обновление индикаторов
-            IndicatorViewModelCount.Value = _associativeQueue.Count;
-
-            if (_associativeQueue.Count == 0)
-            {
-                IndicatorViewModelOperation.Value = null;
-                IndicatorViewModelFirst.Value = null;
-                IndicatorViewModelLast.Value = null;
-            }
-            else
-            {
-                IndicatorViewModelOperation.Value = _associativeQueue.GetResultAssociativeOperation();
-                IndicatorViewModelFirst.Value = _associativeQueue.Peek();
-                IndicatorViewModelLast.SolidColorBrush = Brushes.Black;
-            }
-            #endregion
-
+            UpdateIndicators();
             UpdateArrowsVisibility();
         }
 
@@ -221,46 +206,46 @@ namespace VisualizationAssociativeQueue.ViewModels
             #endregion
 
             #region Индикаторы
-            IndicatorViewModelOperation = new() 
-            { 
-                Name = nameOperation, 
-                Description = _selectedOperation.Description, 
+            IndicatorViewModelOperation = new()
+            {
+                Name = nameOperation,
+                Description = _selectedOperation.Description,
 
                 // Значение операции null? Цвет - красный.
                 // Новое значение операции отличается от старого? Цвет - зелёный, иначе чёрный.
-                ChangeSolidColorBrush = (object? oldValue, object? newValue) => 
-                    newValue == null ? Brushes.Red : 
+                ChangeSolidColorBrush = (oldValue, newValue) =>
+                    newValue == null ? Brushes.Red :
                         (int?)oldValue != (int?)newValue ? Brushes.Green : Brushes.Black,
             };
 
-            IndicatorViewModelCount = new() 
-            { 
-                Name = "Count", 
+            IndicatorViewModelCount = new()
+            {
+                Name = "Count",
                 Description = "Число элементов в очереди",
                 Value = 0,
 
                 // Число элементов 0? Цвет - красный, иначе чёрный. 
-                ChangeSolidColorBrush = (object? _, object? newValue) => 
+                ChangeSolidColorBrush = (_, newValue) =>
                     (int?)newValue == 0 ? Brushes.Red : Brushes.Black,
             };
 
-            IndicatorViewModelFirst = new() 
-            { 
-                Name = "First", 
+            IndicatorViewModelFirst = new()
+            {
+                Name = "First",
                 Description = "Первый элемент в очереди",
 
                 // Первый элемент null? Цвет - красный, иначе зелёный. 
-                ChangeSolidColorBrush = (object? _, object? newValue) => 
+                ChangeSolidColorBrush = (_, newValue) =>
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
 
-            IndicatorViewModelLast = new() 
-            { 
-                Name = "Last", 
+            IndicatorViewModelLast = new()
+            {
+                Name = "Last",
                 Description = "Последний элемент в очереди",
 
                 // Последний элемент null? Цвет - красный, иначе зелёный. 
-                ChangeSolidColorBrush = (object? _, object? newValue) => 
+                ChangeSolidColorBrush = (_, newValue) =>
                     newValue == null ? Brushes.Red : Brushes.Green,
             };
             #endregion

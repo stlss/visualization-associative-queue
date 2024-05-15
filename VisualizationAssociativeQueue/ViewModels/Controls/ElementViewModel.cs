@@ -3,44 +3,26 @@ using System.Windows.Media;
 using VisualizationAssociativeQueue.Models.Statuses;
 using Brushes = VisualizationAssociativeQueue.Infrastructure.Brushes;
 
-namespace VisualizationAssociativeQueue.ViewModels
+namespace VisualizationAssociativeQueue.ViewModels.Controls
 {
     /// <summary>
-    /// Вьюмодель верхушки стека, которая на экране выглядит как элемент коллекции, находящийся в правом нижнем углу области визуализации.
+    /// Вьюмоделей элемента коллекции, который на экране выглядит как квадрат со значением элемента и его статусом.
     /// </summary>
-    internal class StackPeekViewModel : ObservableObject
+    internal class ElementViewModel : ObservableObject
     {
         #region Значение
         private object? _value = null;
         public object? Value
         {
             get => _value;
-            set
-            {
-                var isChangedProperty = SetProperty(ref _value, value);
-
-                if (!isChangedProperty)
-                {
-                    if (value != null)
-                        Status = StackPeekStatus.Old;
-
-                    return;
-                }
-
-                OnPropertyChanged(nameof(DisplayValue));
-                Status = value == null ? StackPeekStatus.Missing : StackPeekStatus.New;
-            }
+            set => SetProperty(ref _value, value);
         }
-        #endregion
-
-        #region Отображаемое значение
-        public string DisplayValue { get => Value?.ToString() ?? "None"; }
         #endregion
 
 
         #region Статус
-        private StackPeekStatus _status = StackPeekStatus.Missing;
-        public StackPeekStatus Status
+        private ElementStatus _status = ElementStatus.New;
+        public ElementStatus Status
         {
             get => _status;
             set
@@ -61,11 +43,11 @@ namespace VisualizationAssociativeQueue.ViewModels
             {
                 switch (Status)
                 {
-                    case StackPeekStatus.New:
+                    case ElementStatus.New:
                         return "New";
 
-                    case StackPeekStatus.Missing:
-                        return "Missing";
+                    case ElementStatus.Deleted:
+                        return "Deleted";
                 }
 
                 return string.Empty;
@@ -81,10 +63,10 @@ namespace VisualizationAssociativeQueue.ViewModels
             {
                 switch (Status)
                 {
-                    case StackPeekStatus.New:
+                    case ElementStatus.New:
                         return Brushes.Green;
 
-                    case StackPeekStatus.Missing:
+                    case ElementStatus.Deleted:
                         return Brushes.Red;
                 }
 
