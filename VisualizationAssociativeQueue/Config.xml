@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--В случае отсутствия конфига или его некорректности он создаться заново-->
 <Assemblies>
 	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\VisualizationAssociativeQueue\bin\Debug\net8.0-windows\VisualizationAssociativeQueue.dll"/>
 	<Assembly Path="C:\Users\Alexander\source\repos\VisualizationAssociativeQueue\ArithmeticOperationLibrary\bin\Debug\net8.0\ArithmeticOperationLibrary.dll"/>
