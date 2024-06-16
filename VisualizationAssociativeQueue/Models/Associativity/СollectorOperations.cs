@@ -11,15 +11,17 @@ namespace VisualizationAssociativeQueue.Models.Associativity
     /// </summary>
     internal static class СollectorOperations
     {
+        private static readonly string _s_nameConfig = "Config.xml";
+
         /// <summary>
         /// Путь до сборки VisualizationAssociativeQueue.dll.
         /// </summary>
-        private static readonly string s_pathAssembly = Assembly.GetExecutingAssembly().Location;
+        private static readonly string _s_pathAssembly = Assembly.GetExecutingAssembly().Location;
 
         /// <summary>
         /// Конфиг, содержащий сборки и их пути, от которых ожидается содержание классов, реализующих интерфейс IAssociativeOperation<int>.
         /// </summary>
-        private static readonly XDocument s_config = ReadConfig();
+        private static readonly XDocument _s_config = ReadConfig();
 
 
         /// <summary>
@@ -27,7 +29,7 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         /// </summary>
         public static List<IAssociativeOperation<int>> GetAssociativeOperations()
         {
-            var pathAssemblies = s_config.Root!.Elements().
+            var pathAssemblies = _s_config.Root!.Elements().
                 Where(element => element.Name == "Assembly" && element.Attribute("Path") != null).
                 Select(assembly => assembly.Attribute("Path")!.Value).
                 Distinct();
@@ -59,16 +61,22 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         private static XDocument ReadConfig()
         {
             XDocument config;
-            string nameConfig = "Config.xml";
 
             try
             {
-                config = XDocument.Load(nameConfig);
+                config = XDocument.Load(_s_nameConfig);
+            }
+            catch (FileNotFoundException)
+            {
+                config = CreateConfig();
+                config.Save(_s_nameConfig);
+
+                return config;
             }
             catch (XmlException)
             {
                 config = CreateConfig();
-                config.Save(nameConfig);
+                config.Save(_s_nameConfig);
 
                 return config;
             }
@@ -76,18 +84,18 @@ namespace VisualizationAssociativeQueue.Models.Associativity
             if (config.Root!.Name != "Assemblies")
             {
                 config.Root!.Name = "Assemblies";
-                config.Save(nameConfig);
+                config.Save(_s_nameConfig);
             }
 
 
             bool isAssemblyVisualizationAssociativeQueue = config.Root!.Elements().
                 Any(assembly => assembly.Name == "Assembly" &&
-                    assembly.Attribute("Path")?.Value == s_pathAssembly);
+                    assembly.Attribute("Path")?.Value == _s_pathAssembly);
 
             if (!isAssemblyVisualizationAssociativeQueue)
             {
-                config.Root.Add(new XElement("Assembly", new XAttribute("Path", s_pathAssembly)));
-                config.Save(nameConfig);
+                config.Root.Add(new XElement("Assembly", new XAttribute("Path", _s_pathAssembly)));
+                config.Save(_s_nameConfig);
             }
 
             return config;
@@ -100,10 +108,9 @@ namespace VisualizationAssociativeQueue.Models.Associativity
         {
             var config = new XDocument(
                     new XDeclaration("1.0", "utf-8", "true"),
-                    new XComment("В случае отсутствия конфига или его некорректности, он создаться заново"),
                     new XElement("Assemblies",
                         new XElement("Assembly",  
-                            new XAttribute("Path", s_pathAssembly))));
+                            new XAttribute("Path", _s_pathAssembly))));
 
             return config;
         }
