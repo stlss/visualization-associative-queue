@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace VisualizationAssociativeQueue
+namespace VisualizationAssociativeQueue.Views.Windows
 {
     public partial class MainWindow : Window
     {
